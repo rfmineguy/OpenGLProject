@@ -903,7 +903,7 @@ static const struct wl_registry_listener registryListener = {
     registryHandleGlobalRemove
 };
 
-// Create key code translation tables
+// Create key src translation tables
 //
 static void createKeyTables(void)
 {

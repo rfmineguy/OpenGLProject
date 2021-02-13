@@ -38,13 +38,13 @@
 #include <locale.h>
 
 
-// Translate an X11 key code to a GLFW key code.
+// Translate an X11 key src to a GLFW key src.
 //
 static int translateKeyCode(int scancode)
 {
     int keySym;
 
-    // Valid key code range is  [8,255], according to the Xlib manual
+    // Valid key src range is  [8,255], according to the Xlib manual
     if (scancode < 8 || scancode > 255)
         return GLFW_KEY_UNKNOWN;
 
@@ -52,7 +52,7 @@ static int translateKeyCode(int scancode)
     {
         // Try secondary keysym, for numeric keypad keys
         // Note: This way we always force "NumLock = ON", which is intentional
-        // since the returned key code should correspond to a physical
+        // since the returned key src should correspond to a physical
         // location.
         keySym = XkbKeycodeToKeysym(_glfw.x11.display, scancode, _glfw.x11.xkb.group, 1);
         switch (keySym)
@@ -228,7 +228,7 @@ static int translateKeyCode(int scancode)
     return GLFW_KEY_UNKNOWN;
 }
 
-// Create key code translation tables
+// Create key src translation tables
 //
 static void createKeyTables(void)
 {
@@ -246,13 +246,13 @@ static void createKeyTables(void)
         XkbDescPtr desc = XkbGetMap(_glfw.x11.display, 0, XkbUseCoreKbd);
         XkbGetNames(_glfw.x11.display, XkbKeyNamesMask, desc);
 
-        // Find the X11 key code -> GLFW key code mapping
+        // Find the X11 key src -> GLFW key src mapping
         for (scancode = desc->min_key_code;  scancode <= desc->max_key_code;  scancode++)
         {
             memcpy(name, desc->names->keys[scancode].name, XkbKeyNameLength);
             name[XkbKeyNameLength] = '\0';
 
-            // Map the key name to a GLFW key code. Note: We only map printable
+            // Map the key name to a GLFW key src. Note: We only map printable
             // keys here, and we use the US keyboard layout. The rest of the
             // keys (function keys) are mapped using traditional KeySym
             // translations.
@@ -707,7 +707,7 @@ static GLFWbool initExtensions(void)
         }
     }
 
-    // Update the key code LUT
+    // Update the key src LUT
     // FIXME: We should listen to XkbMapNotify events to track changes to
     // the keyboard mapping.
     createKeyTables();

@@ -721,7 +721,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
             else if (wParam == VK_PROCESSKEY)
             {
                 // IME notifies that keys have been filtered by setting the
-                // virtual key-code to VK_PROCESSKEY
+                // virtual key-src to VK_PROCESSKEY
                 break;
             }
 

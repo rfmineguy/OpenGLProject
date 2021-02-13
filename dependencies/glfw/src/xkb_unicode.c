@@ -31,7 +31,7 @@
 
 
 /*
- * Marcus: This code was originally written by Markus G. Kuhn.
+ * Marcus: This src was originally written by Markus G. Kuhn.
  * I have made some slight changes (trimmed it down a bit from >60 KB to
  * 20 KB), but the functionality is the same.
  */

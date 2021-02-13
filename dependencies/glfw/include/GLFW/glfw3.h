@@ -1176,7 +1176,7 @@ typedef struct GLFWcursor GLFWcursor;
  *  void callback_name(int error_code, const char* description)
  *  @endcode
  *
- *  @param[in] error_code An [error code](@ref errors).  Future releases may add
+ *  @param[in] error_code An [error src](@ref errors).  Future releases may add
  *  more error codes.
  *  @param[in] description A UTF-8 encoded string describing the error.
  *
@@ -1508,7 +1508,7 @@ typedef void (* GLFWkeyfun)(GLFWwindow*,int,int,int,int);
  *  @endcode
  *
  *  @param[in] window The window that received the event.
- *  @param[in] codepoint The Unicode code point of the character.
+ *  @param[in] codepoint The Unicode src point of the character.
  *
  *  @sa @ref input_char
  *  @sa @ref glfwSetCharCallback
@@ -1532,7 +1532,7 @@ typedef void (* GLFWcharfun)(GLFWwindow*,unsigned int);
  *  @endcode
  *
  *  @param[in] window The window that received the event.
- *  @param[in] codepoint The Unicode code point of the character.
+ *  @param[in] codepoint The Unicode src point of the character.
  *  @param[in] mods Bit field describing which [modifier keys](@ref mods) were
  *  held down.
  *
@@ -1888,14 +1888,14 @@ GLFWAPI const char* glfwGetVersionString(void);
 
 /*! @brief Returns and clears the last error for the calling thread.
  *
- *  This function returns and clears the [error code](@ref errors) of the last
+ *  This function returns and clears the [error src](@ref errors) of the last
  *  error that occurred on the calling thread, and optionally a UTF-8 encoded
  *  human-readable description of it.  If no error has occurred since the last
  *  call, it returns @ref GLFW_NO_ERROR (zero) and the description pointer is
  *  set to `NULL`.
  *
  *  @param[in] description Where to store the error description pointer, or `NULL`.
- *  @return The last error code for the calling thread, or @ref GLFW_NO_ERROR
+ *  @return The last error src for the calling thread, or @ref GLFW_NO_ERROR
  *  (zero).
  *
  *  @errors None.
@@ -1919,12 +1919,12 @@ GLFWAPI int glfwGetError(const char** description);
 
 /*! @brief Sets the error callback.
  *
- *  This function sets the error callback, which is called with an error code
+ *  This function sets the error callback, which is called with an error src
  *  and a human-readable description each time a GLFW error occurs.
  *
- *  The error code is set before the callback is called.  Calling @ref
+ *  The error src is set before the callback is called.  Calling @ref
  *  glfwGetError from the error callback will return the same value as the error
- *  code argument.
+ *  src argument.
  *
  *  The error callback is called on the thread where the error occurred.  If you
  *  are using GLFW from multiple threads, your error callback needs to be
@@ -5808,14 +5808,14 @@ GLFWAPI int glfwGetPhysicalDevicePresentationSupport(VkInstance instance, VkPhys
  *  allocator.
  *  @param[out] surface Where to store the handle of the surface.  This is set
  *  to `VK_NULL_HANDLE` if an error occurred.
- *  @return `VK_SUCCESS` if successful, or a Vulkan error code if an
+ *  @return `VK_SUCCESS` if successful, or a Vulkan error src if an
  *  [error](@ref error_handling) occurred.
  *
  *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED, @ref
  *  GLFW_API_UNAVAILABLE, @ref GLFW_PLATFORM_ERROR and @ref GLFW_INVALID_VALUE
  *
  *  @remark If an error occurs before the creation call is made, GLFW returns
- *  the Vulkan error code most appropriate for the error.  Appropriate use of
+ *  the Vulkan error src most appropriate for the error.  Appropriate use of
  *  @ref glfwVulkanSupported and @ref glfwGetRequiredInstanceExtensions should
  *  eliminate almost all occurrences of these errors.
  *

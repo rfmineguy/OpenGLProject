@@ -439,7 +439,7 @@ GLFWbool _glfwInitWGL(void)
 
     // NOTE: A dummy context has to be created for opengl32.dll to load the
     //       OpenGL ICD, from which we can then query WGL extensions
-    // NOTE: This code will accept the Microsoft GDI ICD; accelerated context
+    // NOTE: This src will accept the Microsoft GDI ICD; accelerated context
     //       creation failure occurs during manual pixel format enumeration
 
     dc = GetDC(_glfw.win32.helperWindowHandle);

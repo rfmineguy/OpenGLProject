@@ -203,7 +203,7 @@ static int translateState(int state)
     return mods;
 }
 
-// Translates an X11 key code to a GLFW key token
+// Translates an X11 key src to a GLFW key token
 //
 static int translateKey(int scancode)
 {
@@ -429,7 +429,7 @@ static char** parseUriList(char* text, int* count)
     return paths;
 }
 
-// Encode a Unicode code point to a UTF-8 stream
+// Encode a Unicode src point to a UTF-8 stream
 // Based on cutef8 by Jeff Bezanson (Public Domain)
 //
 static size_t encodeUTF8(char* s, unsigned int ch)
@@ -460,7 +460,7 @@ static size_t encodeUTF8(char* s, unsigned int ch)
     return count;
 }
 
-// Decode a Unicode code point from a UTF-8 stream
+// Decode a Unicode src point from a UTF-8 stream
 // Based on cutef8 by Jeff Bezanson (Public Domain)
 //
 #if defined(X_HAVE_UTF8_STRING)

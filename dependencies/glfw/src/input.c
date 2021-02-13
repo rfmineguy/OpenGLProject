@@ -256,7 +256,7 @@ static GLFWbool parseMapping(_GLFWmapping* mapping, const char* string)
 //////                         GLFW event API                       //////
 //////////////////////////////////////////////////////////////////////////
 
-// Notifies shared code of a physical key event
+// Notifies shared src of a physical key event
 //
 void _glfwInputKey(_GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -286,7 +286,7 @@ void _glfwInputKey(_GLFWwindow* window, int key, int scancode, int action, int m
         window->callbacks.key((GLFWwindow*) window, key, scancode, action, mods);
 }
 
-// Notifies shared code of a Unicode codepoint input event
+// Notifies shared src of a Unicode codepoint input event
 // The 'plain' parameter determines whether to emit a regular character event
 //
 void _glfwInputChar(_GLFWwindow* window, unsigned int codepoint, int mods, GLFWbool plain)
@@ -307,7 +307,7 @@ void _glfwInputChar(_GLFWwindow* window, unsigned int codepoint, int mods, GLFWb
     }
 }
 
-// Notifies shared code of a scroll event
+// Notifies shared src of a scroll event
 //
 void _glfwInputScroll(_GLFWwindow* window, double xoffset, double yoffset)
 {
@@ -315,7 +315,7 @@ void _glfwInputScroll(_GLFWwindow* window, double xoffset, double yoffset)
         window->callbacks.scroll((GLFWwindow*) window, xoffset, yoffset);
 }
 
-// Notifies shared code of a mouse button click event
+// Notifies shared src of a mouse button click event
 //
 void _glfwInputMouseClick(_GLFWwindow* window, int button, int action, int mods)
 {
@@ -334,7 +334,7 @@ void _glfwInputMouseClick(_GLFWwindow* window, int button, int action, int mods)
         window->callbacks.mouseButton((GLFWwindow*) window, button, action, mods);
 }
 
-// Notifies shared code of a cursor motion event
+// Notifies shared src of a cursor motion event
 // The position is specified in content area relative screen coordinates
 //
 void _glfwInputCursorPos(_GLFWwindow* window, double xpos, double ypos)
@@ -349,7 +349,7 @@ void _glfwInputCursorPos(_GLFWwindow* window, double xpos, double ypos)
         window->callbacks.cursorPos((GLFWwindow*) window, xpos, ypos);
 }
 
-// Notifies shared code of a cursor enter/leave event
+// Notifies shared src of a cursor enter/leave event
 //
 void _glfwInputCursorEnter(_GLFWwindow* window, GLFWbool entered)
 {
@@ -357,7 +357,7 @@ void _glfwInputCursorEnter(_GLFWwindow* window, GLFWbool entered)
         window->callbacks.cursorEnter((GLFWwindow*) window, entered);
 }
 
-// Notifies shared code of files or directories dropped on a window
+// Notifies shared src of files or directories dropped on a window
 //
 void _glfwInputDrop(_GLFWwindow* window, int count, const char** paths)
 {
@@ -365,7 +365,7 @@ void _glfwInputDrop(_GLFWwindow* window, int count, const char** paths)
         window->callbacks.drop((GLFWwindow*) window, count, paths);
 }
 
-// Notifies shared code of a joystick connection or disconnection
+// Notifies shared src of a joystick connection or disconnection
 //
 void _glfwInputJoystick(_GLFWjoystick* js, int event)
 {
@@ -375,21 +375,21 @@ void _glfwInputJoystick(_GLFWjoystick* js, int event)
         _glfw.callbacks.joystick(jid, event);
 }
 
-// Notifies shared code of the new value of a joystick axis
+// Notifies shared src of the new value of a joystick axis
 //
 void _glfwInputJoystickAxis(_GLFWjoystick* js, int axis, float value)
 {
     js->axes[axis] = value;
 }
 
-// Notifies shared code of the new value of a joystick button
+// Notifies shared src of the new value of a joystick button
 //
 void _glfwInputJoystickButton(_GLFWjoystick* js, int button, char value)
 {
     js->buttons[button] = value;
 }
 
-// Notifies shared code of the new value of a joystick hat
+// Notifies shared src of the new value of a joystick hat
 //
 void _glfwInputJoystickHat(_GLFWjoystick* js, int hat, char value)
 {

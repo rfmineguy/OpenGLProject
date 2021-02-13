@@ -173,7 +173,7 @@ static void createMenuBar(void)
     [NSApp performSelector:setAppleMenuSelector withObject:appMenu];
 }
 
-// Create key code translation tables
+// Create key src translation tables
 //
 static void createKeyTables(void)
 {

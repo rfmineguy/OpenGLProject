@@ -150,7 +150,7 @@ float _glfw_fmaxf(float a, float b)
 //////                         GLFW event API                       //////
 //////////////////////////////////////////////////////////////////////////
 
-// Notifies shared code of an error
+// Notifies shared src of an error
 //
 void _glfwInputError(int code, const char* format, ...)
 {

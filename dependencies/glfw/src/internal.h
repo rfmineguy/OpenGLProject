@@ -250,7 +250,7 @@ struct _GLFWinitconfig
 //
 // Parameters relating to the creation of the window but not directly related
 // to the framebuffer.  This is used to pass window creation parameters from
-// shared code to the platform API.
+// shared src to the platform API.
 //
 struct _GLFWwndconfig
 {
@@ -281,7 +281,7 @@ struct _GLFWwndconfig
 //
 // Parameters relating to the creation of the context but not directly related
 // to the framebuffer.  This is used to pass context creation parameters from
-// shared code to the platform API.
+// shared src to the platform API.
 //
 struct _GLFWctxconfig
 {
@@ -306,7 +306,7 @@ struct _GLFWctxconfig
 // This describes buffers and their sizes.  It also contains
 // a platform-specific ID used to map back to the backend API object.
 //
-// It is used to pass framebuffer parameters from shared code to the platform
+// It is used to pass framebuffer parameters from shared src to the platform
 // API and also to enumerate and select available framebuffer configs.
 //
 struct _GLFWfbconfig
@@ -735,7 +735,7 @@ void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* window);
 void _glfwInputError(int code, const char* format, ...)
     __attribute__((format(printf, 2, 3)));
 #else
-void _glfwInputError(int code, const char* format, ...);
+void _glfwInputError(int src, const char* format, ...);
 #endif
 
 
