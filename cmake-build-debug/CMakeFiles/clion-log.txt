@@ -1,0 +1,19 @@
+C:\Users\RFMinePC\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\203.7148.70\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\dev_clion\OpenGLProject
+CMake Error at CMakeLists.txt:6 (add_subdirectory):
+  The source directory
+
+    C:/dev_clion/OpenGLProject/dependencies/includes
+
+  does not contain a CMakeLists.txt file.
+
+
+CMake Error at CMakeLists.txt:7 (add_subdirectory):
+  The source directory
+
+    C:/dev_clion/OpenGLProject/dependencies/libraries
+
+  does not contain a CMakeLists.txt file.
+
+
+-- Configuring incomplete, errors occurred!
+See also "C:/dev_clion/OpenGLProject/cmake-build-debug/CMakeFiles/CMakeOutput.log".
