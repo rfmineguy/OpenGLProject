@@ -20,6 +20,10 @@ namespace test {
         unsigned int m_VAO;
         unsigned int m_VBO;
         unsigned int m_IBO;
+
+        unsigned int m_VertShader;
+        unsigned int m_FragShader;
+        unsigned int m_Program;
     };
 }
 
