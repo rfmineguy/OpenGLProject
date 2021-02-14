@@ -22,6 +22,8 @@ namespace test {
         unsigned int m_IBO;
 
         Shader m_Shader;
+    private:
+        float colors[4] = {0.0, 0.3, 0.5, 1.0};
     };
 }
 

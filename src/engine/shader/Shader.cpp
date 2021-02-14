@@ -82,4 +82,21 @@ void Shader::Use() {
     glUseProgram(m_Program);
 }
 
+
 /**Set up shader uniforms**/
+void Shader::SetUniform4f(const std::string &name, float v0, float v1, float v2, float v3) {
+    glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
+}
+
+int Shader::GetUniformLocation(const std::string &name) {
+    if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+        return m_UniformLocationCache[name];
+
+    int location = glGetUniformLocation(m_Program, name.c_str());
+    if (location == -1) {
+        std::cout << "Warning: Uniform '" << name << "' doesn't exist." << std::endl;
+    }
+
+    m_UniformLocationCache[name] = location;
+    return location;
+}

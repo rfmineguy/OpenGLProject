@@ -11,16 +11,24 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 
 class Shader {
 public:
     Shader(std::string vertPath,std::string fragPath);
     ~Shader();
 
+    void Use();
+    void SetUniform4f(const std::string& location, float v0, float v1, float v2, float v3);
+
+private:
     void CompileVertShader(std::string& filePath);
     void CompileFragShader(std::string& filePath);
     void FinalizeShader();
-    void Use();
+    int GetUniformLocation(const std::string& location);
+
+private:
+    std::unordered_map<std::string, int> m_UniformLocationCache;
 
 private:
     unsigned int m_Vert;
