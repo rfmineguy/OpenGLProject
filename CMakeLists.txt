@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCE_FILES src/main.cpp src/glad.c
         src/engine/util/Logger.cpp
         src/engine/test_framework/Test.cpp
-        src/tests/QuadTest.cpp)
+        src/tests/QuadTest.cpp
+        src/engine/model/Model.h)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${dir}/build)
