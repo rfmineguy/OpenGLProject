@@ -8,9 +8,7 @@
 #include "glm/glm.hpp"
 
 struct Vertex {
-    glm::vec3 Pos;
-    glm::vec3 Normal;
-    glm::vec2 TexCoord;
+    float Pos[3];
 };
 
 #endif //OPENGLPROJECT_VERTEX_H

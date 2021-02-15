@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCE_FILES src/main.cpp src/glad.c
         src/engine/util/Logger.cpp
         src/engine/test_framework/Test.cpp
-        src/tests/QuadTest.cpp src/engine/shader/Shader.cpp src/engine/shader/Shader.h src/tests/ShaderTest.cpp src/tests/ShaderTest.h src/engine/model/ModelData.h src/engine/model/Vertex.h)
+        src/tests/QuadTest.cpp src/engine/shader/Shader.cpp src/engine/shader/Shader.h src/tests/ShaderTest.cpp src/tests/ShaderTest.h src/engine/model/Vertex.h src/engine/rendering/Renderer.cpp src/engine/rendering/Renderer.h)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${dir}/build)
