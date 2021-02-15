@@ -10,10 +10,10 @@ test::CameraTest::CameraTest()
 , m_Shader("../res/shaders/4_camera/vert.shader", "../res/shaders/4_camera/frag.shader", true)
 {
     Vertex vertices[] = {
-            {-0.5f, -0.5f, 0.0f },
-            { 0.5f, -0.5f, 0.0f },
-            { 0.5f,  0.5f, 0.0f },
-            {-0.5f,  0.5f, 0.0f }
+            {-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
+            { 0.5f, -0.5f, 0.0f, 1.0f, 0.0f},
+            { 0.5f,  0.5f, 0.0f, 1.0f, 1.0f},
+            {-0.5f,  0.5f, 0.0f, 0.0f, 1.0f}
     };
 
     unsigned int indices[] = {
@@ -33,8 +33,11 @@ test::CameraTest::CameraTest()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(0 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(0 * sizeof(float)));
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);

@@ -12,13 +12,14 @@
 #include "handlers/InputHandler.h"
 
 Camera::Camera(glm::vec3 pos, glm::vec3 target)
-    :m_CamPos(pos), m_TargetPos(target){
+    :m_CamPos(pos), m_TargetPos(target) {
 
-    LookAt(m_CamPos, m_TargetPos);
+    LookAt(m_CamPos);
     m_Direction = glm::normalize(m_CamPos - m_TargetPos);
     m_CameraRight = glm::normalize(glm::cross(m_Up, m_Direction));
     m_CameraUp = glm::cross(m_Direction, m_CameraRight);
 
+    m_View = glm::lookAt(pos, target, m_Up);
 }
 
 Camera::~Camera() {
@@ -63,10 +64,10 @@ void Camera::Update(float dt) {
         direction.z = sin(glm::radians(Input.yaw)) * cos(glm::radians(Input.pitch));
         m_CameraFront = glm::normalize(direction);
     }
-    LookAt(m_CamPos, m_TargetPos);
+    LookAt(m_CamPos);
 }
 
-void Camera::LookAt(glm::vec3 position, glm::vec3 target) {
+void Camera::LookAt(glm::vec3 position) {
     m_CamPos = position;
     m_View = glm::lookAt(m_CamPos, m_CamPos + m_CameraFront, m_CameraUp);
 }

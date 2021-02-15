@@ -13,7 +13,7 @@ public:
     Camera(glm::vec3 pos, glm::vec3 target);
     ~Camera();
     void Update(float dt);
-    void LookAt(glm::vec3 position, glm::vec3 target);
+    void LookAt(glm::vec3 position);
     glm::mat4 GetProjView() {
         return m_Proj * m_View;
     }
