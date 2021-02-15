@@ -6,7 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCE_FILES src/main.cpp src/glad.c
         src/engine/util/Logger.cpp
         src/engine/test_framework/Test.cpp
-        src/tests/QuadTest.cpp src/engine/shader/Shader.cpp src/engine/shader/Shader.h src/tests/ShaderTest.cpp src/tests/ShaderTest.h src/engine/model/Vertex.h src/engine/rendering/Renderer.cpp src/engine/rendering/Renderer.h)
+        src/tests/QuadTest.cpp
+        src/engine/shader/Shader.cpp
+        src/tests/MainTest.cpp
+        src/engine/model/Vertex.h
+        src/engine/texture/Texture.cpp src/vendor/stb_image/stb_setup.cpp)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${dir}/build)
@@ -21,6 +25,7 @@ include_directories(dependencies/glad/include)
 #Add deps
 add_subdirectory(dependencies)
 add_subdirectory(src/vendor/imgui)
+add_subdirectory(src/vendor/stb_image)
 
 #Create .exe with the source files
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -29,3 +34,4 @@ target_link_libraries(${PROJECT_NAME} glfw)
 target_include_directories(${PROJECT_NAME} PUBLIC src/vendor/imgui)
 
 target_link_libraries(${PROJECT_NAME} ImGui::ImGui)
+target_link_libraries(${PROJECT_NAME} StbImage::StbImage)

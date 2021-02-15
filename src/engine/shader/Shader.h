@@ -15,11 +15,12 @@
 
 class Shader {
 public:
-    Shader(std::string vertPath,std::string fragPath);
+    Shader(std::string vertPath,std::string fragPath, bool printSource = false);
     ~Shader();
 
     void Use();
-    void SetUniform4f(const std::string& location, float v0, float v1, float v2, float v3);
+    void SetUniform1i(const std::string& name, int v0);
+    void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
 
 private:
     void CompileVertShader(std::string& filePath);
@@ -29,6 +30,7 @@ private:
 
 private:
     std::unordered_map<std::string, int> m_UniformLocationCache;
+    bool m_PrintSource;
 
 private:
     unsigned int m_Vert;

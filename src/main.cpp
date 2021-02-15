@@ -2,7 +2,7 @@
 #include "GLFW/glfw3.h"
 
 #include <iostream>
-#include <tests/ShaderTest.h>
+#include <tests/MainTest.h>
 
 #include "handlers/InputHandler.h"
 #include "handlers/ResizeHandler.h"
@@ -141,7 +141,7 @@ int main() {
         currentTest = testMenu;
 
         testMenu->RegisterTest<test::QuadTest>("QuadTest");
-        testMenu->RegisterTest<test::ShaderTest>("ShaderTest");
+        testMenu->RegisterTest<test::MainTest>("MainTest");
 
         double deltaTime = 0.0f;    // Time between current frame and last frame
         double lastFrame = 0.0f; // Time of last frame

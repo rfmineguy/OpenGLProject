@@ -4,7 +4,8 @@
 
 #include "Shader.h"
 
-Shader::Shader(std::string vertPath, std::string fragPath) {
+Shader::Shader(std::string vertPath, std::string fragPath, bool printSource)
+    :m_PrintSource(printSource) {
     CompileVertShader(vertPath);
     CompileFragShader(fragPath);
     FinalizeShader();
@@ -30,6 +31,9 @@ void Shader::CompileVertShader(std::string& filePath) {
     m_Vert = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(m_Vert, 1, &source, NULL);
     glCompileShader(m_Vert);
+    if (m_PrintSource) {
+        std::cout << source << std::endl;
+    }
 
     glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &success);
     if (!success)
@@ -53,6 +57,9 @@ void Shader::CompileFragShader(std::string& filePath) {
     m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(m_Frag, 1, &source, NULL);
     glCompileShader(m_Frag);
+    if (m_PrintSource) {
+        std::cout << source << std::endl;
+    }
 
     //error check
     glGetShaderiv(m_Frag, GL_COMPILE_STATUS, &success);
@@ -86,6 +93,10 @@ void Shader::Use() {
 /**Set up shader uniforms**/
 void Shader::SetUniform4f(const std::string &name, float v0, float v1, float v2, float v3) {
     glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
+}
+
+void Shader::SetUniform1i(const std::string &name, int v0) {
+    glUniform1i(GetUniformLocation(name), v0);
 }
 
 int Shader::GetUniformLocation(const std::string &name) {
