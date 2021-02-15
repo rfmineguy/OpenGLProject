@@ -6,9 +6,11 @@
 #include "model/Vertex.h"
 
 #include "imgui/imgui.h"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 test::MainTest::MainTest()
-    :m_Shader("../res/shaders/2_texture/vert.shader", "../res/shaders/2_texture/frag.shader")
+    :m_Shader("../res/shaders/3_transformations/vert.shader", "../res/shaders/3_transformations/frag.shader")
     ,m_Texture1("../res/textures/smily.png")
     ,m_Texture2("../res/textures/box.png"){
 
@@ -60,6 +62,13 @@ test::MainTest::MainTest()
     m_Shader.SetUniform1i("tex1", 0);
     m_Texture2.Use(1);
     m_Shader.SetUniform1i("tex2", 1);
+
+    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 trans = glm::mat4(1.0);
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+    trans = glm::rotate(trans, glm::radians(30.0f), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+    m_Shader.SetUniform4fv("transformation", 1, GL_FALSE, trans);
 }
 
 test::MainTest::~MainTest() {
@@ -68,8 +77,13 @@ test::MainTest::~MainTest() {
     glDeleteBuffers(1, &m_IBO);
 }
 
+float angle = 0;
 void test::MainTest::OnUpdate(double dt) {
-
+    glm::mat4 trans = glm::mat4(1.0);
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+    trans = glm::rotate(trans, glm::radians(angle), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+    m_Shader.SetUniform4fv("transformation", 1, GL_FALSE, trans);
 }
 
 void test::MainTest::OnRender() {
@@ -86,6 +100,8 @@ void test::MainTest::OnResize(int width, int height) {
 
 void test::MainTest::OnImGuiRender() {
     ImGui::SliderFloat4("inColor", colors, 0, 1);
+
+    ImGui::SliderFloat("Rotation", &angle, 0, 360);
 
     ImGui::Text("MainTest Contents");
     ImGui::Text(" - use of shader class");
