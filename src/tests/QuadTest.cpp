@@ -111,7 +111,7 @@ test::QuadTest::~QuadTest() {
     glDeleteProgram(m_Program);
 }
 
-void test::QuadTest::OnUpdate(double dt) {
+void test::QuadTest::OnUpdate(float dt) {
 
 }
 

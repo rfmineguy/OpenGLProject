@@ -1,20 +1,19 @@
 //
-// Created by RFMinePC on 2/14/2021.
+// Created by RFMinePC on 2/15/2021.
 //
 
-#ifndef OPENGLPROJECT_MAINTEST_H
-#define OPENGLPROJECT_MAINTEST_H
-
+#ifndef OPENGLPROJECT_CAMERATEST_H
+#define OPENGLPROJECT_CAMERATEST_H
 #include "test_framework/Test.h"
+
 #include "shader/Shader.h"
-#include "texture/Texture.h"
 #include "camera/Camera.h"
 
 namespace test {
-    class MainTest : public Test {
+    class CameraTest : public Test {
     public:
-        MainTest();
-        ~MainTest();
+        CameraTest();
+        ~CameraTest() override;
         void OnUpdate(float dt) override;
         void OnRender() override;
         void OnResize(int width, int height) override;
@@ -25,11 +24,9 @@ namespace test {
         unsigned int m_IBO;
 
         Shader m_Shader;
-        Texture m_Texture1, m_Texture2;
         Camera m_Camera;
-    private:
-        float colors[4] = {0.0, 0.3, 0.5, 1.0};
     };
 }
 
-#endif //OPENGLPROJECT_MAINTEST_H
+
+#endif //OPENGLPROJECT_CAMERATEST_H

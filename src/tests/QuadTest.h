@@ -12,7 +12,7 @@ namespace test {
     public:
         QuadTest();
         ~QuadTest();
-        void OnUpdate(double dt) override;
+        void OnUpdate(float dt) override;
         void OnRender() override;
         void OnResize(int width, int height) override;
         void OnImGuiRender() override;

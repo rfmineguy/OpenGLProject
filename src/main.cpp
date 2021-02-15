@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <tests/MainTest.h>
+#include <tests/CameraTest.h>
 
 #include "handlers/InputHandler.h"
 #include "handlers/ResizeHandler.h"
@@ -142,6 +143,7 @@ int main() {
 
         testMenu->RegisterTest<test::QuadTest>("QuadTest");
         testMenu->RegisterTest<test::MainTest>("MainTest");
+        testMenu->RegisterTest<test::CameraTest>("CamTest");
 
         double deltaTime = 0.0f;    // Time between current frame and last frame
         double lastFrame = 0.0f; // Time of last frame

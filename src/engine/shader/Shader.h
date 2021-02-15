@@ -41,6 +41,8 @@ private:
 
     int success;
     char infoLog[512];
+
+    std::string shaderPath;
 };
 
 

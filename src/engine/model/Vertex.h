@@ -10,6 +10,7 @@
 struct Vertex {
     float Pos[3];
     float TexCoords[2];
+    //new attribute
 };
 
 #endif //OPENGLPROJECT_VERTEX_H

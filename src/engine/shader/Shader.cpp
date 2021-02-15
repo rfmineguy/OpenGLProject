@@ -6,6 +6,7 @@
 
 Shader::Shader(std::string vertPath, std::string fragPath, bool printSource)
     :m_PrintSource(printSource) {
+
     CompileVertShader(vertPath);
     CompileFragShader(fragPath);
     FinalizeShader();
@@ -35,6 +36,7 @@ void Shader::CompileVertShader(std::string& filePath) {
         std::cout << source << std::endl;
     }
 
+    printf("Compiling Vertex Shader : \n");
     glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &success);
     if (!success)
     {
@@ -54,6 +56,8 @@ void Shader::CompileFragShader(std::string& filePath) {
     std::string fragSourceStr = ss.str();
     const char* source = fragSourceStr.c_str();
 
+
+    printf("Compiling Fragment Shader : \n");
     m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(m_Frag, 1, &source, NULL);
     glCompileShader(m_Frag);

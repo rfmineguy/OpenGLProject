@@ -12,7 +12,7 @@ namespace test {
 		Test() {}
 		virtual ~Test() {}
 	
-		virtual void OnUpdate(double dt) {}
+		virtual void OnUpdate(float dt) {}
 		virtual void OnRender() {}
 		virtual void OnImGuiRender() {}
 		virtual void OnResize(int width, int height) {}
