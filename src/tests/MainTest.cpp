@@ -8,8 +8,9 @@
 #include "imgui/imgui.h"
 
 test::MainTest::MainTest()
-    :m_Shader("../res/shaders/2/vert.shader", "../res/shaders/2/frag.shader", true)
-    ,m_Texture("../res/textures/smily.png") {
+    :m_Shader("../res/shaders/2_texture/vert.shader", "../res/shaders/2_texture/frag.shader")
+    ,m_Texture1("../res/textures/smily.png")
+    ,m_Texture2("../res/textures/box.png"){
 
     /** BUFFERS **/
     Vertex vertices[] = {
@@ -24,7 +25,7 @@ test::MainTest::MainTest()
             2, 3, 0
     };
 
-    //all of this stuff can happen in a renderer class
+    //all of this stuff can happen in a `Renderer` class
     //  send geometry to the renderer as 'ModelData'
     glGenVertexArrays(1, &m_VAO);
     glGenBuffers(1, &m_VBO);
@@ -38,7 +39,7 @@ test::MainTest::MainTest()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(0 * sizeof(float)));
     glEnableVertexAttribArray(0);
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -53,14 +54,18 @@ test::MainTest::MainTest()
     /** BUFFERS **/
 
 
-    m_Texture.Use();
     m_Shader.Use();
-    m_Shader.SetUniform1i("ourTexture", 0);
+
+    m_Texture1.Use(0);
+    m_Shader.SetUniform1i("tex1", 0);
+    m_Texture2.Use(1);
+    m_Shader.SetUniform1i("tex2", 1);
 }
 
 test::MainTest::~MainTest() {
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
+    glDeleteBuffers(1, &m_IBO);
 }
 
 void test::MainTest::OnUpdate(double dt) {
@@ -81,5 +86,12 @@ void test::MainTest::OnResize(int width, int height) {
 
 void test::MainTest::OnImGuiRender() {
     ImGui::SliderFloat4("inColor", colors, 0, 1);
+
+    ImGui::Text("MainTest Contents");
+    ImGui::Text(" - use of shader class");
+    ImGui::Text(" - use of texture class");
+    ImGui::Text(" - improved vertex arrays");
+    ImGui::Text(" - unimproved buffer allocation");
+    ImGui::Text(" - glDrawElements(...)");
 }
 

@@ -23,7 +23,7 @@ namespace test {
         unsigned int m_IBO;
 
         Shader m_Shader;
-        Texture m_Texture;
+        Texture m_Texture1, m_Texture2;
     private:
         float colors[4] = {0.0, 0.3, 0.5, 1.0};
     };
