@@ -36,12 +36,15 @@ void Shader::CompileVertShader(std::string& filePath) {
         std::cout << source << std::endl;
     }
 
-    printf("Compiling Vertex Shader : \n");
+    printf("Compiling Vertex Shader : ");
     glGetShaderiv(m_Vert, GL_COMPILE_STATUS, &success);
     if (!success)
     {
         glGetShaderInfoLog(m_Vert, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    } else
+    {
+        printf("SUCCESS\n");
     }
 }
 void Shader::CompileFragShader(std::string& filePath) {
@@ -57,7 +60,7 @@ void Shader::CompileFragShader(std::string& filePath) {
     const char* source = fragSourceStr.c_str();
 
 
-    printf("Compiling Fragment Shader : \n");
+    printf("Compiling Fragment Shader : ");
     m_Frag = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(m_Frag, 1, &source, NULL);
     glCompileShader(m_Frag);
@@ -71,7 +74,11 @@ void Shader::CompileFragShader(std::string& filePath) {
     {
         glGetShaderInfoLog(m_Frag, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+    } else
+    {
+        printf("SUCCESS\n");
     }
+
 }
 void Shader::FinalizeShader() {
     m_Program = glCreateProgram();

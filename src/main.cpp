@@ -2,8 +2,6 @@
 #include "GLFW/glfw3.h"
 
 #include <iostream>
-#include <tests/MainTest.h>
-#include <tests/CameraTest.h>
 
 #include "handlers/InputHandler.h"
 #include "handlers/ResizeHandler.h"
@@ -12,7 +10,10 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_glfw.h"
 
-#include "tests/QuadTest.h"
+#include <tests/MainTest.h>
+#include <tests/QuadTest.h>
+#include <tests/CameraTest.h>
+#include <tests/CubeTest.h>
 
 struct InputHandler Input;
 struct ResizeHandler Resize;
@@ -144,6 +145,7 @@ int main() {
         testMenu->RegisterTest<test::QuadTest>("QuadTest");
         testMenu->RegisterTest<test::MainTest>("MainTest");
         testMenu->RegisterTest<test::CameraTest>("CamTest");
+        testMenu->RegisterTest<test::CubeTest>("CubeTest");
 
         double deltaTime = 0.0f;    // Time between current frame and last frame
         double lastFrame = 0.0f; // Time of last frame

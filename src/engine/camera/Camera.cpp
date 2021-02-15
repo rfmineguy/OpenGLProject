@@ -14,12 +14,9 @@
 Camera::Camera(glm::vec3 pos, glm::vec3 target)
     :m_CamPos(pos), m_TargetPos(target) {
 
-    LookAt(m_CamPos);
     m_Direction = glm::normalize(m_CamPos - m_TargetPos);
     m_CameraRight = glm::normalize(glm::cross(m_Up, m_Direction));
     m_CameraUp = glm::cross(m_Direction, m_CameraRight);
-
-    m_View = glm::lookAt(pos, target, m_Up);
 }
 
 Camera::~Camera() {
