@@ -15,6 +15,7 @@
 #include <tests/CameraTest.h>
 #include <tests/CubeTest.h>
 #include <tests/TexturedCubeTest.h>
+#include <tests/LightingTest.h>
 
 struct InputHandler Input;
 struct ResizeHandler Resize;
@@ -32,11 +33,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     if (Input.keys[32]) {
         firstMouse = true;
+
         if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            Input.mouseEnabled = false;
+            Input.keyEnabled = false;
         }
         else {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            Input.mouseEnabled = true;
+            Input.keyEnabled = true;
         }
     }
 }
@@ -46,19 +52,20 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
         Input.lastY = ypos;
         firstMouse = false;
     }
-
-    double xOffset = xpos - Input.lastX;
-    double yOffset = Input.lastY - ypos; //reversed on purpose
-    xOffset *= Input.sensitivity;
-    yOffset *= Input.sensitivity;
-    Input.lastX = xpos;
-    Input.lastY = ypos;
-    Input.yaw += xOffset;
-    Input.pitch += yOffset;
-    if (Input.pitch > 89.f)
-        Input.pitch = 89.f;
-    if (Input.pitch < -89.f)
-        Input.pitch = -89.f;
+    if(Input.mouseEnabled){
+        double xOffset = xpos - Input.lastX;
+        double yOffset = Input.lastY - ypos; //reversed on purpose
+        xOffset *= Input.sensitivity;
+        yOffset *= Input.sensitivity;
+        Input.lastX = xpos;
+        Input.lastY = ypos;
+        Input.yaw += xOffset;
+        Input.pitch += yOffset;
+        if (Input.pitch > 89.f)
+            Input.pitch = 89.f;
+        if (Input.pitch < -89.f)
+            Input.pitch = -89.f;
+    }
 }
 void resize_callback(GLFWwindow* window, int width, int height) {
     glfwGetFramebufferSize(window, &Resize.lastWindowWidth, &Resize.lastWindowHeight);
@@ -107,6 +114,10 @@ void GLSetup() {
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
 }
 void ImGuiSetup(GLFWwindow* window) {
     std::cout << "ImGui Setup";
@@ -148,6 +159,7 @@ int main() {
         testMenu->RegisterTest<test::CameraTest>("CamTest");
         testMenu->RegisterTest<test::CubeTest>("CubeTest");
         testMenu->RegisterTest<test::TexturedCubeTest>("TexturedCubeTest");
+        testMenu->RegisterTest<test::LightingTest>("LightingTest");
 
         double deltaTime = 0.0f;    // Time between current frame and last frame
         double lastFrame = 0.0f; // Time of last frame
@@ -159,7 +171,7 @@ int main() {
             }
             InputHandling(window);
 
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(.5f, .5f, .5f, 1.f);
 
             ImGui_ImplOpenGL3_NewFrame();

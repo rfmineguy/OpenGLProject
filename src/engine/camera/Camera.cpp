@@ -27,39 +27,44 @@ void Camera::Update(float dt) {
     const float camSpeed = 2.5f * dt;
     //Keyboard Input
     {
-        //W (FORWARDS)
-        if (Input.keys[87]) {
-            m_CamPos += camSpeed * m_CameraFront;
-        }
-        //S (BACKWARDS)
-        if (Input.keys[83]) {
-            m_CamPos -= m_CameraFront * camSpeed;
-        }
-        //A (LEFT)
-        if (Input.keys[65]) {
-            m_CamPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * camSpeed;
-        }
-        //D (RIGHT)
-        if (Input.keys[68]) {
-            m_CamPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * camSpeed;
-        }
-        //Q (UP)
-        if (Input.keys[81]) {
-            m_CamPos += m_CameraUp * camSpeed;
-        }
-        //E (DOWN)
-        if (Input.keys[69]) {
-            m_CamPos -= m_CameraUp * camSpeed;
+        if(Input.keyEnabled)
+        {
+            //W (FORWARDS)
+            if (Input.keys[87]) {
+                m_CamPos += camSpeed * m_CameraFront;
+            }
+            //S (BACKWARDS)
+            if (Input.keys[83]) {
+                m_CamPos -= m_CameraFront * camSpeed;
+            }
+            //A (LEFT)
+            if (Input.keys[65]) {
+                m_CamPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * camSpeed;
+            }
+            //D (RIGHT)
+            if (Input.keys[68]) {
+                m_CamPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * camSpeed;
+            }
+            //Q (UP)
+            if (Input.keys[81]) {
+                m_CamPos += m_CameraUp * camSpeed;
+            }
+            //E (DOWN)
+            if (Input.keys[69]) {
+                m_CamPos -= m_CameraUp * camSpeed;
+            }
         }
     }
 
     //Mouse Input
     {
-        glm::vec3 direction;
-        direction.x = cos(glm::radians(Input.yaw)) * cos(glm::radians(Input.pitch));
-        direction.y = sin(glm::radians(Input.pitch));
-        direction.z = sin(glm::radians(Input.yaw)) * cos(glm::radians(Input.pitch));
-        m_CameraFront = glm::normalize(direction);
+        if(Input.mouseEnabled){
+            glm::vec3 direction;
+            direction.x = cos(glm::radians(Input.yaw)) * cos(glm::radians(Input.pitch));
+            direction.y = sin(glm::radians(Input.pitch));
+            direction.z = sin(glm::radians(Input.yaw)) * cos(glm::radians(Input.pitch));
+            m_CameraFront = glm::normalize(direction);
+        }
     }
     LookAt(m_CamPos);
 }

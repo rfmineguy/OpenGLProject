@@ -110,6 +110,9 @@ void Shader::SetUniform4fv(const std::string &name, int numMats, GLenum transpos
     glUniformMatrix4fv(GetUniformLocation(name), numMats, transpose, glm::value_ptr(mat));
 }
 
+void Shader::SetUniform3f(const std::string &name, float v0, float v1, float v2) {
+    glUniform3f(GetUniformLocation(name), v0, v1, v2);
+}
 
 void Shader::SetUniform1i(const std::string &name, int v0) {
     glUniform1i(GetUniformLocation(name), v0);
