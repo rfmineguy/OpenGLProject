@@ -21,7 +21,7 @@ namespace test {
         void OnResize(int width, int height) override;
         void OnImGuiRender() override;
     private:
-        glm::vec3 m_LightPos = glm::vec3(1.2f, 1.0f, 2.0f);
+        glm::vec3 m_LightPos = glm::vec3(2.0f, 2.0f, 2.0f);
 
         float objectColor[3] { 0.5f, 0.2f, 0.8f };
         float lightColor[3]  { 1.0f, 1.0f, 1.0f };

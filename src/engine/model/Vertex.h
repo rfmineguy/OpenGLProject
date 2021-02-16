@@ -9,6 +9,7 @@
 
 struct Vertex {
     float Pos[3];
+    float Normal[3];
     float TexCoords[2];
     //new attribute
 };
