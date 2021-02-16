@@ -113,4 +113,7 @@ void test::TexturedCubeTest::OnResize(int width, int height) {
 
 void test::TexturedCubeTest::OnImGuiRender() {
     Test::OnImGuiRender();
+
+    ImGui::Text("This cube looks funny because the data isn't formatted correctly.");
+    ImGui::Text("Vertex has 3 members but this cube is only using 2");
 }

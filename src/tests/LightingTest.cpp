@@ -99,11 +99,11 @@ void test::LightingTest::OnUpdate(float dt) {
     m_Camera.Update(dt);
 
     //move around light source
-    angle += dt * 2;
+    angle += dt * 30;
     if (angle > 360) angle = 0;
-    m_LightPos.x = sin(angle) * 2.0f;
-    m_LightPos.z = cos(angle) * 2.0f;
-    m_LightPos.y = 2.0f;
+    m_LightPos.x = sin(glm::radians(angle)) * 2.0f;
+    m_LightPos.z = cos(glm::radians(angle)) * 2.0f;
+    m_LightPos.y = sin(glm::radians(angle)) * cos(glm::radians(angle)) * 6.0f;
 
     //update light source shader params (small cube)
     m_CubeShader.Use();
@@ -122,6 +122,7 @@ void test::LightingTest::OnUpdate(float dt) {
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
     m_LightSourceShader.SetUniform4fv("pv", 1, GL_FALSE, m_Camera.GetProjView());
     m_LightSourceShader.SetUniform4fv("model", 1, GL_FALSE, model);
+    m_LightSourceShader.SetUniform3f("lightColor", lightColor[0], lightColor[1], lightColor[2]);
 }
 
 void test::LightingTest::OnRender() {

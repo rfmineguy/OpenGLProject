@@ -12,6 +12,7 @@
 #include "camera/Camera.h"
 
 #include "model/Vertex.h"
+#include "imgui.h"
 
 namespace test{
     class TexturedCubeTest : public Test {
