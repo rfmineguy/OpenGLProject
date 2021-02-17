@@ -1,14 +1,14 @@
 //
-// Created by RFMinePC on 2/15/2021.
+// Created by RFMinePC on 2/16/2021.
 //
 
-#include "LightingTest.h"
+#include "MaterialTest.h"
 
-test::LightingTest::LightingTest()
+test::MaterialTest::MaterialTest()
         : m_Camera(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0))
-        , m_LightSourceShader("../res/shaders/6_lighting/light_source_vert.shader", "../res/shaders/6_lighting/light_source_frag.shader")
-        , m_CubeShader("../res/shaders/6_lighting/cube_vert.shader", "../res/shaders/6_lighting/cube_frag.shader")
-        {
+        , m_LightSourceShader("../res/shaders/7_materialLighting/light_source_vert.shader", "../res/shaders/7_materialLighting/light_source_frag.shader")
+        , m_CubeShader("../res/shaders/7_materialLighting/cube_vert.shader", "../res/shaders/7_materialLighting/cube_frag.shader")
+{
     Vertex vertices[] = {
             //front
             {{0.0f,  0.0f, 0.0}, {0.0f, 0.0f, -1.0f}, {}},  //0
@@ -55,8 +55,6 @@ test::LightingTest::LightingTest()
             22, 21, 20, 20, 23, 22  //B
     };
 
-
-
     glGenVertexArrays(1, &m_CubeVAO);
     glGenVertexArrays(1, &m_LightVAO);
 
@@ -85,7 +83,7 @@ test::LightingTest::LightingTest()
     printf("Setup buffers");
 }
 
-test::LightingTest::~LightingTest() {
+test::MaterialTest::~MaterialTest() {
     glDeleteVertexArrays(1, &m_LightVAO);
     glDeleteVertexArrays(1, &m_CubeVAO);
 
@@ -93,39 +91,53 @@ test::LightingTest::~LightingTest() {
     glDeleteBuffers(1, &m_IBO);
 }
 
-void test::LightingTest::OnUpdate(float dt) {
-    //update camera
+float time = 0;
+void test::MaterialTest::OnUpdate(float dt) {
+    time += dt;
     m_Camera.Update(dt);
 
-    //move around light source
+    //move the light source around
     angle += dt * 30;
     if (angle > 360) angle = 0;
     m_LightPos.x = sin(glm::radians(angle)) * 2.0f;
     m_LightPos.z = cos(glm::radians(angle)) * 2.0f;
     m_LightPos.y = sin(glm::radians(angle)) * cos(glm::radians(angle)) * 6.0f;
 
-    //update light source shader params (small cube)
+    //setup the cube's uniforms
     m_CubeShader.Use();
-    m_CubeShader.SetUniform3f("lightPos", m_LightPos.x, m_LightPos.y, m_LightPos.z);
-    m_CubeShader.SetUniform3f("viewPos", m_Camera.m_CamPos.x, m_Camera.m_CamPos.x, m_Camera.m_CamPos.y);
-    m_CubeShader.SetUniform3f("objectColor", objectColor[0], objectColor[1], objectColor[2]);
-    m_CubeShader.SetUniform3f("lightColor", lightColor[0], lightColor[1], lightColor[2]);
+    m_CubeShader.SetUniform3f("light.position", m_LightPos.x, m_LightPos.y, m_LightPos.z);
+    m_CubeShader.SetUniform3f("viewPos", m_Camera.m_CamPos.x, m_Camera.m_CamPos.y, m_Camera.m_CamPos.z);
 
-    glm::mat4 model = glm::mat4(1.0);
+    // light properties
+    lightColor.x = sin(time * 2.0f);
+    lightColor.y = sin(time * 0.7f);
+    lightColor.z = sin(time * 1.3f);
+    glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // decrease the influence
+    glm::vec3 ambientColor = diffuseColor * glm::vec3(0.6f); // low influence
+    m_CubeShader.SetUniform3f("light.ambient", ambientColor.x, ambientColor.y, ambientColor.z);
+    m_CubeShader.SetUniform3f("light.diffuse", diffuseColor.x, diffuseColor.y, diffuseColor.z);
+    m_CubeShader.SetUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
+
+    m_CubeShader.SetUniform3f("material.ambient", 1.0f, 0.5f, 0.31f);
+    m_CubeShader.SetUniform3f("material.diffuse", 1.0f, 0.5f, 0.31f);
+    m_CubeShader.SetUniform3f("material.specular", 0.5f, 0.5f, 0.5f);
+    m_CubeShader.SetUniform1f("material.shininess", 32.0f);
+
     m_CubeShader.SetUniform4fv("pv", 1, GL_FALSE, m_Camera.GetProjView());
+    glm::mat4 model = glm::mat4(1.0f);
     m_CubeShader.SetUniform4fv("model", 1, GL_FALSE, model);
 
-
+    //setup the light source's uniforms
     m_LightSourceShader.Use();
+    m_LightSourceShader.SetUniform4fv("pv", 1, GL_FALSE, m_Camera.GetProjView());
     model = glm::mat4(1.0f);
     model = glm::translate(model, m_LightPos);
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-    m_LightSourceShader.SetUniform4fv("pv", 1, GL_FALSE, m_Camera.GetProjView());
     m_LightSourceShader.SetUniform4fv("model", 1, GL_FALSE, model);
-    m_LightSourceShader.SetUniform3f("lightColor", lightColor[0], lightColor[1], lightColor[2]);
+    m_LightSourceShader.SetUniform3f("lightColor", lightColor.x, lightColor.y, lightColor.z);
 }
 
-void test::LightingTest::OnRender() {
+void test::MaterialTest::OnRender() {
     //second cube still renders when obscured
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
@@ -140,16 +152,11 @@ void test::LightingTest::OnRender() {
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
 
-void test::LightingTest::OnResize(int width, int height) {
-
+void test::MaterialTest::OnResize(int width, int height) {
+    Test::OnResize(width, height);
 }
 
-
-void test::LightingTest::OnImGuiRender() {
-    ImGui::Text("Color Sliders");
-    ImGui::ColorEdit3("Light (small cube)" , lightColor);
-    ImGui::ColorEdit3("Object (large cube)", objectColor);
-
-    ImGui::Value("Mouse Enabled (SPACE)", Input.mouseEnabled);
-    ImGui::Value("Keys  Enabled (SPACE)", Input.keyEnabled);
+void test::MaterialTest::OnImGuiRender() {
+    Test::OnImGuiRender();
+    ImGui::Text("%0.4f %0.4f %0.4f", lightColor.x, lightColor.y, lightColor.z);
 }

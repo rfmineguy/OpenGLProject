@@ -1,9 +1,9 @@
 //
-// Created by RFMinePC on 2/15/2021.
+// Created by RFMinePC on 2/16/2021.
 //
 
-#ifndef OPENGLPROJECT_LIGHTINGTEST_H
-#define OPENGLPROJECT_LIGHTINGTEST_H
+#ifndef OPENGLPROJECT_MATERIALTEST_H
+#define OPENGLPROJECT_MATERIALTEST_H
 #include "test_framework/Test.h"
 #include "shader/Shader.h"
 #include "camera/Camera.h"
@@ -11,11 +11,11 @@
 #include "imgui.h"
 #include "handlers/InputHandler.h"
 
-namespace test {
-    class LightingTest : public Test {
+namespace test{
+    class MaterialTest : public Test {
     public:
-        LightingTest();
-        ~LightingTest();
+        MaterialTest();
+        ~MaterialTest();
         void OnUpdate(float dt) override;
         void OnRender() override;
         void OnResize(int width, int height) override;
@@ -24,7 +24,7 @@ namespace test {
         glm::vec3 m_LightPos = glm::vec3(2.0f, 2.0f, 2.0f);
 
         float objectColor[3] { 0.5f, 0.2f, 0.8f };
-        float lightColor[3]  { 1.0f, 1.0f, 1.0f };
+        glm::vec3 lightColor = glm::vec3(1.0);
 
         double angle;
 
@@ -41,4 +41,4 @@ namespace test {
     };
 }
 
-#endif //OPENGLPROJECT_LIGHTINGTEST_H
+#endif //OPENGLPROJECT_MATERIALTEST_H

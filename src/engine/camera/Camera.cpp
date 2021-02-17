@@ -24,11 +24,15 @@ Camera::~Camera() {
 }
 
 void Camera::Update(float dt) {
-    const float camSpeed = 2.5f * dt;
+    float camSpeed = 2.5f * dt;
     //Keyboard Input
     {
         if(Input.keyEnabled)
         {
+            //L-SHIFT (FASTER)
+            if(Input.keys[340]) {
+                camSpeed *= 2;
+            }
             //W (FORWARDS)
             if (Input.keys[87]) {
                 m_CamPos += camSpeed * m_CameraFront;
