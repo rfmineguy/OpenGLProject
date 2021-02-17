@@ -9,43 +9,47 @@ test::TexturedCubeTest::TexturedCubeTest()
 ,m_Shader("../res/shaders/5_textureCube/vert.shader", "../res/shaders/5_textureCube/frag.shader")
 ,m_Texture("../res/textures/crate.png")
 {
+    Vertex verts[] = {
+            {{0.0, 0.1, 0.2}, {}, {0.0, }}
+    };
+
     //cube
     Vertex vertices[] = {
             //front
-            {0.0f,  0.0f, 0.0f,  0.0f, 0.0f},  //0
-            {1.0f,  0.0f, 0.0f,  1.0f, 0.0f},  //1
-            {1.0f,  1.0f, 0.0f,  1.0f, 1.0f},  //2
-            {0.0f,  1.0f, 0.0f,  0.0f, 1.0f},  //3
+            {{0.0f,  0.0f, 0.0f}, {}, {0.0f, 0.0f}},  //0
+            {{1.0f,  0.0f, 0.0f}, {}, {1.0f, 0.0f}},  //1
+            {{1.0f,  1.0f, 0.0f}, {}, {1.0f, 1.0f}},  //2
+            {{0.0f,  1.0f, 0.0f}, {}, {0.0f, 1.0f}},  //3
 
             //back
-            {0.0f,  0.0f, 1.0f,  0.0f, 0.0f},  //4
-            {1.0f,  0.0f, 1.0f,  1.0f, 0.0f},  //5
-            {1.0f,  1.0f, 1.0f,  1.0f, 1.0f},  //6
-            {0.0f,  1.0f, 1.0f,  0.0f, 1.0f},  //7
+            {{0.0f,  0.0f, 1.0f}, {}, {0.0f, 0.0f}},  //4
+            {{1.0f,  0.0f, 1.0f}, {}, {1.0f, 0.0f}},  //5
+            {{1.0f,  1.0f, 1.0f}, {}, {1.0f, 1.0f}},  //6
+            {{0.0f,  1.0f, 1.0f}, {}, {0.0f, 1.0f}},  //7
 
             //right
-            {1.0f,  0.0f, 0.0f,  0.0f, 0.0f},  //8
-            {1.0f,  0.0f, 1.0f,  1.0f, 0.0f},  //9
-            {1.0f,  1.0f, 1.0f,  1.0f, 1.0f},  //10
-            {1.0f,  1.0f, 0.0f,  0.0f, 1.0f},  //11
+            {{1.0f,  0.0f, 0.0f}, {}, {0.0f, 0.0f}},  //8
+            {{1.0f,  0.0f, 1.0f}, {}, {1.0f, 0.0f}},  //9
+            {{1.0f,  1.0f, 1.0f}, {}, {1.0f, 1.0f}},  //10
+            {{1.0f,  1.0f, 0.0f}, {}, {0.0f, 1.0f}},  //11
 
             //left
-            {0.0f,  0.0f, 1.0f,  0.0f, 0.0f},  //12
-            {0.0f,  0.0f, 0.0f,  1.0f, 0.0f},  //13
-            {0.0f,  1.0f, 0.0f,  1.0f, 1.0f},  //14
-            {0.0f,  1.0f, 1.0f,  0.0f, 1.0f},  //15
+            {{0.0f,  0.0f, 1.0f}, {}, {0.0f, 0.0f}},  //12
+            {{0.0f,  0.0f, 0.0f}, {}, {1.0f, 0.0f}},  //13
+            {{0.0f,  1.0f, 0.0f}, {}, {1.0f, 1.0f}},  //14
+            {{0.0f,  1.0f, 1.0f}, {}, {0.0f, 1.0f}},  //15
 
             //top
-            {0.0f, 1.0f, 0.0f,   0.0f, 0.0f},  //16
-            {1.0f, 1.0f, 0.0f,   1.0f, 0.0f},  //17
-            {1.0f, 1.0f, 1.0f,   1.0f, 1.0f},  //18
-            {0.0f, 1.0f, 1.0f,   0.0f, 1.0f},  //19
+            {{0.0f, 1.0f, 0.0f}, {}, {0.0f, 0.0f}},  //16
+            {{1.0f, 1.0f, 0.0f}, {}, {1.0f, 0.0f}},  //17
+            {{1.0f, 1.0f, 1.0f}, {}, {1.0f, 1.0f}},  //18
+            {{0.0f, 1.0f, 1.0f}, {}, {0.0f, 1.0f}},  //19
 
             //bottom
-            {1.0f, 0.0f, 1.0f,   1.0f, 1.0f}, //20
-            {1.0f, 0.0f, 0.0f,   1.0f, 0.0f}, //21
-            {0.0f, 0.0f, 0.0f,   0.0f, 0.0f}, //22
-            {0.0f, 0.0f, 1.0f,   0.0f, 1.0f}, //23
+            {{1.0f, 0.0f, 1.0f}, {}, {1.0f, 1.0f}}, //20
+            {{1.0f, 0.0f, 0.0f}, {}, {1.0f, 0.0f}}, //21
+            {{0.0f, 0.0f, 0.0f}, {}, {0.0f, 0.0f}}, //22
+            {{0.0f, 0.0f, 1.0f}, {}, {0.0f, 1.0f}}, //23
     };
     unsigned int indices[] {
              2,  1,  0,  0,  3,  2, //F
@@ -68,10 +72,10 @@ test::TexturedCubeTest::TexturedCubeTest()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(0 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Pos));
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
     glEnableVertexAttribArray(1);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind

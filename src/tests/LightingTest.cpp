@@ -11,40 +11,40 @@ test::LightingTest::LightingTest()
         {
     Vertex vertices[] = {
             //front
-            {0.0f,  0.0f, 0.0, 0.0f, 0.0f, -1.0f},  //0
-            {1.0f,  0.0f, 0.0, 0.0f, 0.0f, -1.0f},  //1
-            {1.0f,  1.0f, 0.0, 0.0f, 0.0f, -1.0f},  //2
-            {0.0f,  1.0f, 0.0, 0.0f, 0.0f, -1.0f},  //3
+            {{0.0f,  0.0f, 0.0}, {0.0f, 0.0f, -1.0f}, {}},  //0
+            {{1.0f,  0.0f, 0.0}, {0.0f, 0.0f, -1.0f}, {}},  //1
+            {{1.0f,  1.0f, 0.0}, {0.0f, 0.0f, -1.0f}, {}},  //2
+            {{0.0f,  1.0f, 0.0}, {0.0f, 0.0f, -1.0f}, {}},  //3
 
             //back
-            {0.0f,  0.0f, 1.0, 0.0f, 0.0f,  1.0f},  //4
-            {1.0f,  0.0f, 1.0, 0.0f, 0.0f,  1.0f},  //5
-            {1.0f,  1.0f, 1.0, 0.0f, 0.0f,  1.0f},  //6
-            {0.0f,  1.0f, 1.0, 0.0f, 0.0f,  1.0f},  //7
+            {{0.0f,  0.0f, 1.0}, {0.0f, 0.0f,  1.0f}, {}}, //4
+            {{1.0f,  0.0f, 1.0}, {0.0f, 0.0f,  1.0f}, {}}, //5
+            {{1.0f,  1.0f, 1.0}, {0.0f, 0.0f,  1.0f}, {}}, //6
+            {{0.0f,  1.0f, 1.0}, {0.0f, 0.0f,  1.0f}, {}}, //7
 
             //right
-            {1.0f,  0.0f, 0.0, 1.0f, 0.0f,  0.0f},  //8
-            {1.0f,  0.0f, 1.0, 1.0f, 0.0f,  0.0f},  //9
-            {1.0f,  1.0f, 1.0, 1.0f, 0.0f,  0.0f},  //10
-            {1.0f,  1.0f, 0.0, 1.0f, 0.0f,  0.0f},  //11
+            {{1.0f,  0.0f, 0.0}, {1.0f, 0.0f,  0.0f}, {}}, //8
+            {{1.0f,  0.0f, 1.0}, {1.0f, 0.0f,  0.0f}, {}}, //9
+            {{1.0f,  1.0f, 1.0}, {1.0f, 0.0f,  0.0f}, {}}, //10
+            {{1.0f,  1.0f, 0.0}, {1.0f, 0.0f,  0.0f}, {}}, //11
 
             //left
-            {0.0f,  0.0f, 1.0, -1.0f, 0.0f,  0.0f},  //12
-            {0.0f,  0.0f, 0.0, -1.0f, 0.0f,  0.0f},  //13
-            {0.0f,  1.0f, 0.0, -1.0f, 0.0f,  0.0f},  //14
-            {0.0f,  1.0f, 1.0, -1.0f, 0.0f,  0.0f},  //15
+            {{0.0f,  0.0f, 1.0}, {-1.0f, 0.0f,  0.0f}, {}}, //12
+            {{0.0f,  0.0f, 0.0}, {-1.0f, 0.0f,  0.0f}, {}}, //13
+            {{0.0f,  1.0f, 0.0}, {-1.0f, 0.0f,  0.0f}, {}}, //14
+            {{0.0f,  1.0f, 1.0}, {-1.0f, 0.0f,  0.0f}, {}}, //15
 
             //top
-            {0.0f, 1.0f, 0.0f, 0.0f, 1.0f,  0.0f},  //16
-            {1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  0.0f},  //17
-            {1.0f, 1.0f, 1.0f, 0.0f, 1.0f,  0.0f},  //18
-            {0.0f, 1.0f, 1.0f, 0.0f, 1.0f,  0.0f},  //19
+            {{0.0f, 1.0f, 0.0f}, {0.0f, 1.0f,  0.0f}, {}}, //16
+            {{1.0f, 1.0f, 0.0f}, {0.0f, 1.0f,  0.0f}, {}}, //17
+            {{1.0f, 1.0f, 1.0f}, {0.0f, 1.0f,  0.0f}, {}}, //18
+            {{0.0f, 1.0f, 1.0f}, {0.0f, 1.0f,  0.0f}, {}}, //19
 
             //bottom
-            {1.0f, 0.0f, 1.0f, 0.0f, -1.0f,  0.0f},  //20
-            {1.0f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f},  //21
-            {0.0f, 0.0f, 0.0f, 0.0f, -1.0f,  0.0f},  //22
-            {0.0f, 0.0f, 1.0f, 0.0f, -1.0f,  0.0f},  //23
+            {{1.0f, 0.0f, 1.0f}, {0.0f, -1.0f,  0.0f}, {}}, //20
+            {{1.0f, 0.0f, 0.0f}, {0.0f, -1.0f,  0.0f}, {}}, //21
+            {{0.0f, 0.0f, 0.0f}, {0.0f, -1.0f,  0.0f}, {}}, //22
+            {{0.0f, 0.0f, 1.0f}, {0.0f, -1.0f,  0.0f}, {}}, //23
     };
     unsigned int indices[] {
             2, 1,  0,  0,  3, 2,    //F
@@ -72,14 +72,14 @@ test::LightingTest::LightingTest()
 
     //cube vao
     glBindVertexArray(m_CubeVAO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Pos));
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
     glEnableVertexAttribArray(1);
 
     //light vao
     glBindVertexArray(m_LightVAO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Pos));
     glEnableVertexAttribArray(0);
 
     printf("Setup buffers");
@@ -108,6 +108,7 @@ void test::LightingTest::OnUpdate(float dt) {
     //update light source shader params (small cube)
     m_CubeShader.Use();
     m_CubeShader.SetUniform3f("lightPos", m_LightPos.x, m_LightPos.y, m_LightPos.z);
+    m_CubeShader.SetUniform3f("viewPos", m_Camera.m_CamPos.x, m_Camera.m_CamPos.x, m_Camera.m_CamPos.y);
     m_CubeShader.SetUniform3f("objectColor", objectColor[0], objectColor[1], objectColor[2]);
     m_CubeShader.SetUniform3f("lightColor", lightColor[0], lightColor[1], lightColor[2]);
 
@@ -147,8 +148,8 @@ void test::LightingTest::OnResize(int width, int height) {
 
 void test::LightingTest::OnImGuiRender() {
     ImGui::Text("Color Sliders");
-    ImGui::SliderFloat3("Light (small cube)" , lightColor , 0, 1);
-    ImGui::SliderFloat3("Object (large cube)", objectColor, 0, 1);
+    ImGui::ColorEdit3("Light (small cube)" , lightColor);
+    ImGui::ColorEdit3("Object (large cube)", objectColor);
 
     ImGui::Value("Mouse Enabled (SPACE)", Input.mouseEnabled);
     ImGui::Value("Keys  Enabled (SPACE)", Input.keyEnabled);
