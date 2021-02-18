@@ -8,9 +8,8 @@
 #include "glm/glm.hpp"
 
 struct Material {
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
+    unsigned int diffuseTexture = 0;
+    unsigned int specularTexture = 1;
     float shininess;
 };
 

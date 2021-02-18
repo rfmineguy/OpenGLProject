@@ -123,9 +123,8 @@ void Shader::SetUniform1i(const std::string &name, int v0) {
 }
 
 void Shader::SetMaterial(const std::string &name, Material mat) {
-    SetUniform3f(name + ".ambient",  mat.ambient.x,  mat.ambient.y,  mat.ambient.z);
-    SetUniform3f(name + ".diffuse",  mat.diffuse.x,  mat.diffuse.y,  mat.diffuse.z);
-    SetUniform3f(name + ".specular", mat.specular.x, mat.specular.y, mat.specular.z);
+    SetUniform1i(name + ".diffuse", mat.diffuseTexture);
+    SetUniform1i(name + ".specular", mat.specularTexture);
     SetUniform1f(name + ".shininess", mat.shininess);
 }
 

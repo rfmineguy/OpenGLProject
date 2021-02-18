@@ -4,7 +4,6 @@ project(OpenGLProject)
 set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCE_FILES src/main.cpp src/glad.c
-        src/engine/util/Logger.cpp
         src/engine/test_framework/Test.cpp
         src/tests/QuadTest.cpp
         src/engine/shader/Shader.cpp

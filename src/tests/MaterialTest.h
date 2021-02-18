@@ -12,6 +12,7 @@
 #include "handlers/InputHandler.h"
 #include "shader/Material.h"
 #include "shader/Light.h"
+#include "texture/Texture.h"
 
 namespace test{
     class MaterialTest : public Test {
@@ -25,15 +26,14 @@ namespace test{
     private:
         glm::vec3 m_LightPos = glm::vec3(2.0f, 2.0f, 2.0f);
 
-        float objectColor[3] { 0.5f, 0.2f, 0.8f };
-        glm::vec3 lightColor = glm::vec3(1.0);
+        glm::vec3 m_lightColor = glm::vec3(1.0);
+        glm::vec3 m_RotationAxis = glm::vec3(1.0);
 
-        double angle;
+        double angle = 0;
 
         //these are two unique objects using the 'm_VBO'
         unsigned int m_LightVAO;
         unsigned int m_CubeVAO_0;
-        unsigned int m_CubeVAO_1;
 
         //contain data to render a cube
         unsigned int m_VBO;
@@ -44,6 +44,8 @@ namespace test{
 
         Shader m_LightSourceShader, m_CubeShader;
         Camera m_Camera;
+
+        Texture m_DiffuseTex, m_SpecularTex;
     };
 }
 
