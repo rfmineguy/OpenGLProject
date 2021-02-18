@@ -14,6 +14,8 @@
 #include <unordered_map>
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "shader/Material.h"
+#include "shader/Light.h"
 
 class Shader {
 public:
@@ -26,6 +28,8 @@ public:
     void SetUniform3f(const std::string& name, float v0, float v1, float v2);
     void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
     void SetUniform4fv(const std::string& name, int numMats, GLenum transpose, glm::mat4 mat);
+    void SetMaterial(const std::string& name, Material mat);
+    void SetLight(const std::string& name, Light light);
 private:
     void CompileVertShader(std::string& filePath);
     void CompileFragShader(std::string& filePath);

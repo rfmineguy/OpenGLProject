@@ -55,7 +55,7 @@ test::MaterialTest::MaterialTest()
             22, 21, 20, 20, 23, 22  //B
     };
 
-    glGenVertexArrays(1, &m_CubeVAO);
+    glGenVertexArrays(1, &m_CubeVAO_0);
     glGenVertexArrays(1, &m_LightVAO);
 
     //setup vbo
@@ -69,7 +69,7 @@ test::MaterialTest::MaterialTest()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //cube vao
-    glBindVertexArray(m_CubeVAO);
+    glBindVertexArray(m_CubeVAO_0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Pos));
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
@@ -85,7 +85,7 @@ test::MaterialTest::MaterialTest()
 
 test::MaterialTest::~MaterialTest() {
     glDeleteVertexArrays(1, &m_LightVAO);
-    glDeleteVertexArrays(1, &m_CubeVAO);
+    glDeleteVertexArrays(1, &m_CubeVAO_0);
 
     glDeleteBuffers(1, &m_VBO);
     glDeleteBuffers(1, &m_IBO);
@@ -93,35 +93,39 @@ test::MaterialTest::~MaterialTest() {
 
 float time = 0;
 void test::MaterialTest::OnUpdate(float dt) {
-    time += dt;
     m_Camera.Update(dt);
 
-    //move the light source around
+    /** START VALUE CALCULATIONS **/
+    time += dt;
     angle += dt * 30;
     if (angle > 360) angle = 0;
     m_LightPos.x = sin(glm::radians(angle)) * 2.0f;
     m_LightPos.z = cos(glm::radians(angle)) * 2.0f;
     m_LightPos.y = sin(glm::radians(angle)) * cos(glm::radians(angle)) * 6.0f;
 
-    //setup the cube's uniforms
-    m_CubeShader.Use();
-    m_CubeShader.SetUniform3f("light.position", m_LightPos.x, m_LightPos.y, m_LightPos.z);
-    m_CubeShader.SetUniform3f("viewPos", m_Camera.m_CamPos.x, m_Camera.m_CamPos.y, m_Camera.m_CamPos.z);
-
-    // light properties
-    lightColor.x = sin(time * 2.0f);
-    lightColor.y = sin(time * 0.7f);
-    lightColor.z = sin(time * 1.3f);
+    lightColor.x = abs(sin(time * 2.0f));
+    lightColor.y = abs(sin(time * 0.7f));
+    lightColor.z = abs(sin(time * 1.3f));
     glm::vec3 diffuseColor = lightColor   * glm::vec3(0.5f); // decrease the influence
     glm::vec3 ambientColor = diffuseColor * glm::vec3(0.6f); // low influence
-    m_CubeShader.SetUniform3f("light.ambient", ambientColor.x, ambientColor.y, ambientColor.z);
-    m_CubeShader.SetUniform3f("light.diffuse", diffuseColor.x, diffuseColor.y, diffuseColor.z);
-    m_CubeShader.SetUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
+    /** END VALUE CALCULATIONS **/
 
-    m_CubeShader.SetUniform3f("material.ambient", 1.0f, 0.5f, 0.31f);
-    m_CubeShader.SetUniform3f("material.diffuse", 1.0f, 0.5f, 0.31f);
-    m_CubeShader.SetUniform3f("material.specular", 0.5f, 0.5f, 0.5f);
-    m_CubeShader.SetUniform1f("material.shininess", 32.0f);
+    /**START MATERIAL UPDATES**/
+    m_Light.position = m_LightPos;
+    m_Light.diffuse = diffuseColor;
+    m_Light.ambient = ambientColor;
+
+    m_CubeMat.ambient = glm::vec3(1.0f, 0.5f, 0.31f);
+    m_CubeMat.diffuse = glm::vec3(1.0f, 0.5f, 0.31f);
+    m_CubeMat.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+    m_CubeMat.shininess = 32.f;
+    /**END MATERIAL UPDATES**/
+
+    /**START SHADER 'MODIFICATION'**/
+    m_CubeShader.Use();
+    m_CubeShader.SetLight("light", m_Light);
+    m_CubeShader.SetMaterial("material", m_CubeMat);
+    m_CubeShader.SetUniform3f("viewPos", m_Camera.m_CamPos.x, m_Camera.m_CamPos.y, m_Camera.m_CamPos.z);
 
     m_CubeShader.SetUniform4fv("pv", 1, GL_FALSE, m_Camera.GetProjView());
     glm::mat4 model = glm::mat4(1.0f);
@@ -135,6 +139,7 @@ void test::MaterialTest::OnUpdate(float dt) {
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
     m_LightSourceShader.SetUniform4fv("model", 1, GL_FALSE, model);
     m_LightSourceShader.SetUniform3f("lightColor", lightColor.x, lightColor.y, lightColor.z);
+    /**END SHADER 'MODIFICATION'**/
 }
 
 void test::MaterialTest::OnRender() {
@@ -147,7 +152,7 @@ void test::MaterialTest::OnRender() {
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
     m_CubeShader.Use();
-    glBindVertexArray(m_CubeVAO);
+    glBindVertexArray(m_CubeVAO_0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 }
@@ -159,4 +164,5 @@ void test::MaterialTest::OnResize(int width, int height) {
 void test::MaterialTest::OnImGuiRender() {
     Test::OnImGuiRender();
     ImGui::Text("%0.4f %0.4f %0.4f", lightColor.x, lightColor.y, lightColor.z);
+    ImGui::Text("%0.4f %0.4f %0.4f", m_LightPos.x, m_LightPos.y, m_LightPos.z);
 }

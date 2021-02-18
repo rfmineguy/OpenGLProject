@@ -122,6 +122,20 @@ void Shader::SetUniform1i(const std::string &name, int v0) {
     glUniform1i(GetUniformLocation(name), v0);
 }
 
+void Shader::SetMaterial(const std::string &name, Material mat) {
+    SetUniform3f(name + ".ambient",  mat.ambient.x,  mat.ambient.y,  mat.ambient.z);
+    SetUniform3f(name + ".diffuse",  mat.diffuse.x,  mat.diffuse.y,  mat.diffuse.z);
+    SetUniform3f(name + ".specular", mat.specular.x, mat.specular.y, mat.specular.z);
+    SetUniform1f(name + ".shininess", mat.shininess);
+}
+
+void Shader::SetLight(const std::string &name, Light light) {
+    SetUniform3f(name + ".position", light.position.x, light.position.y, light.position.z);
+    SetUniform3f(name + ".ambient", light.ambient.x,  light.ambient.y,  light.ambient.z);
+    SetUniform3f(name + ".diffuse", light.diffuse.x,  light.diffuse.y,  light.diffuse.z);
+    SetUniform3f(name + ".specular", light.specular.x,  light.specular.y,  light.specular.z);
+}
+
 int Shader::GetUniformLocation(const std::string &name) {
     if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
         return m_UniformLocationCache[name];

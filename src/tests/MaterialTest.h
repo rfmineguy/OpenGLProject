@@ -10,6 +10,8 @@
 #include "model/Vertex.h"
 #include "imgui.h"
 #include "handlers/InputHandler.h"
+#include "shader/Material.h"
+#include "shader/Light.h"
 
 namespace test{
     class MaterialTest : public Test {
@@ -30,11 +32,15 @@ namespace test{
 
         //these are two unique objects using the 'm_VBO'
         unsigned int m_LightVAO;
-        unsigned int m_CubeVAO;
+        unsigned int m_CubeVAO_0;
+        unsigned int m_CubeVAO_1;
 
         //contain data to render a cube
         unsigned int m_VBO;
         unsigned int m_IBO;
+
+        Material m_CubeMat = Material();
+        Light m_Light = Light();
 
         Shader m_LightSourceShader, m_CubeShader;
         Camera m_Camera;
