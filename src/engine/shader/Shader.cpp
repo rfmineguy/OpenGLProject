@@ -118,22 +118,61 @@ void Shader::SetUniform1f(const std::string &name, float v0) {
     glUniform1f(GetUniformLocation(name), v0);
 }
 
+void Shader::SetUniform1ui(const std::string &name, unsigned int v0) {
+    glUniform1ui(GetUniformLocation(name), v0);
+}
+
 void Shader::SetUniform1i(const std::string &name, int v0) {
     glUniform1i(GetUniformLocation(name), v0);
 }
 
 void Shader::SetMaterial(const std::string &name, Material mat) {
-    SetUniform1i(name + ".diffuse", mat.diffuseTexture);
-    SetUniform1i(name + ".specular", mat.specularTexture);
+    SetUniform1ui(name + ".diffuse", mat.diffuseTexture);
+    SetUniform1ui(name + ".specular", mat.specularTexture);
     SetUniform1f(name + ".shininess", mat.shininess);
 }
 
-void Shader::SetLight(const std::string &name, Light light) {
-    SetUniform3f(name + ".position", light.position.x, light.position.y, light.position.z);
-    SetUniform3f(name + ".ambient", light.ambient.x,  light.ambient.y,  light.ambient.z);
-    SetUniform3f(name + ".diffuse", light.diffuse.x,  light.diffuse.y,  light.diffuse.z);
-    SetUniform3f(name + ".specular", light.specular.x,  light.specular.y,  light.specular.z);
+void Shader::SetPointLight(const std::string &name, PointLight light) {
+    SetUniform3f(name + ".position", light.pos.x, light.pos.y, light.pos.z);
+    SetUniform1f(name + ".constant", light.constant);
+    SetUniform1f(name + ".linear", light.linear);
+    SetUniform1f(name + ".quadratic", light.quadratic);
+    SetUniform3f(name + ".ambient", light.ambient.x, light.ambient.y, light.ambient.z);
+    SetUniform3f(name + ".diffuse", light.diffuse.x, light.diffuse.y, light.diffuse.z);
+    SetUniform3f(name + ".specular", light.specular.x, light.specular.y, light.specular.z);
 }
+
+void Shader::SetPointLightArr(const std::string &name, std::vector<PointLight>& lights) {
+    for (size_t i = 0; i < lights.size(); i++) {
+        std::string id = name + "[" + std::to_string(i) + "]";
+        SetPointLight(id, lights[i]);
+    }
+}
+
+void Shader::SetDirectionaLight(const std::string &name, DirectionalLight *light) {
+    SetUniform3f(name + ".direction", light->dir.x, light->dir.y, light->dir.z);
+    SetUniform3f(name + ".ambient", light->ambient.x, light->ambient.y, light->ambient.z);
+    SetUniform3f(name + ".diffuse", light->diffuse.x, light->diffuse.y, light->diffuse.z);
+    SetUniform3f(name + ".specular", light->specular.x, light->specular.y, light->specular.z);
+}
+
+void Shader::SetSpotLight(const std::string &name, SpotLight *light) {
+    SetUniform3f(name + ".position", light->pos.x, light->pos.y, light->pos.z);
+    SetUniform3f(name + ".direction", light->dir.x, light->dir.y, light->dir.z);
+
+    SetUniform1f(name + ".cutOff", light->cutOff);
+    SetUniform1f(name + ".outerCutOff", light->outerCutoff);
+    SetUniform1f(name + ".intensity", light->intensity);
+
+    SetUniform1f(name + ".constant", light->constant);
+    SetUniform1f(name + ".linear", light->linear);
+    SetUniform1f(name + ".quadratic", light->quadratic);
+
+    SetUniform3f(name + ".ambient", light->ambient.x, light->ambient.y, light->ambient.z);
+    SetUniform3f(name + ".diffuse", light->diffuse.x, light->diffuse.y, light->diffuse.z);
+    SetUniform3f(name + ".specular", light->specular.x, light->specular.y, light->specular.z);
+}
+
 
 int Shader::GetUniformLocation(const std::string &name) {
     if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
@@ -141,7 +180,7 @@ int Shader::GetUniformLocation(const std::string &name) {
 
     int location = glGetUniformLocation(m_Program, name.c_str());
     if (location == -1) {
-        std::cout << "Warning: Uniform '" << name << "' doesn't exist." << std::endl;
+        std::cerr << "Warning: Uniform '" << name << "' doesn't exist." << std::endl;
     }
 
     m_UniformLocationCache[name] = location;

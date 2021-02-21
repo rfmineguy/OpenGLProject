@@ -201,6 +201,7 @@ int main() {
                 }
                 ImGui::NewLine();
                 ImGui::Text("Delta Time %.3f", deltaTime);
+                ImGui::Text("Framerate %.3f", ImGui::GetIO().Framerate);
 
                 ImGui::End();
             }

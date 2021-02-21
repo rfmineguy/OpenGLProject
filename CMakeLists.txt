@@ -9,7 +9,7 @@ set(SOURCE_FILES src/main.cpp src/glad.c
         src/engine/shader/Shader.cpp
         src/tests/MainTest.cpp
         src/engine/model/Vertex.h
-        src/engine/texture/Texture.cpp src/vendor/stb_image/stb_setup.cpp src/engine/camera/Camera.h src/engine/camera/Camera.cpp src/tests/CameraTest.cpp src/tests/CameraTest.h src/tests/CubeTest.cpp src/tests/CubeTest.h src/tests/TexturedCubeTest.cpp src/tests/TexturedCubeTest.h src/tests/LightingTest.cpp src/tests/LightingTest.h src/tests/MaterialTest.cpp src/tests/MaterialTest.h src/engine/shader/Material.h src/engine/shader/Light.h)
+        src/engine/texture/Texture.cpp src/vendor/stb_image/stb_setup.cpp src/engine/camera/Camera.h src/engine/camera/Camera.cpp src/tests/CameraTest.cpp src/tests/CameraTest.h src/tests/CubeTest.cpp src/tests/CubeTest.h src/tests/TexturedCubeTest.cpp src/tests/TexturedCubeTest.h src/tests/LightingTest.cpp src/tests/LightingTest.h src/tests/MaterialTest.cpp src/tests/MaterialTest.h src/engine/shader/Material.h src/engine/shader/Light.h src/engine/shader/LightTypes.h)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${dir}/build)
@@ -25,6 +25,7 @@ include_directories(dependencies/glad/include)
 add_subdirectory(dependencies)
 add_subdirectory(src/vendor/imgui)
 add_subdirectory(src/vendor/stb_image)
+add_subdirectory(src/vendor/assimp)
 
 #Create .exe with the source files
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
