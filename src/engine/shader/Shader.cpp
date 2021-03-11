@@ -94,6 +94,8 @@ void Shader::FinalizeShader() {
     }
     glDeleteShader(m_Vert);
     glDeleteShader(m_Frag);
+
+    std::cout << "Created program ID : " << m_Program << std::endl;
 }
 
 void Shader::Use() {
@@ -127,8 +129,8 @@ void Shader::SetUniform1i(const std::string &name, int v0) {
 }
 
 void Shader::SetMaterial(const std::string &name, Material mat) {
-    SetUniform1ui(name + ".diffuse", mat.diffuseTexture);
-    SetUniform1ui(name + ".specular", mat.specularTexture);
+    SetUniform1i(name + ".diffuse", mat.diffuseTexture);
+    SetUniform1i(name + ".specular", mat.specularTexture);
     SetUniform1f(name + ".shininess", mat.shininess);
 }
 
@@ -173,6 +175,16 @@ void Shader::SetSpotLight(const std::string &name, SpotLight *light) {
     SetUniform3f(name + ".specular", light->specular.x, light->specular.y, light->specular.z);
 }
 
+void Shader::SetEnvironment(const std::string &name, Environment env) {
+    //point lights
+    SetPointLightArr(name + ".pointLights", env.pLights);
+
+    //dir light
+    SetDirectionaLight(name + ".dirLight", &env.dLights[0]);
+
+    //spot light
+    SetSpotLight(name + ".spotLight", &env.sLights[0]);
+}
 
 int Shader::GetUniformLocation(const std::string &name) {
     if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())

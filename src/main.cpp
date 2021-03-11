@@ -17,6 +17,7 @@
 #include <tests/TexturedCubeTest.h>
 #include <tests/LightingTest.h>
 #include <tests/MaterialTest.h>
+#include <tests/ModelTest.h>
 
 struct InputHandler Input;
 struct ResizeHandler Resize;
@@ -162,6 +163,7 @@ int main() {
         testMenu->RegisterTest<test::TexturedCubeTest>("TexturedCubeTest");
         testMenu->RegisterTest<test::LightingTest>("LightingTest");
         testMenu->RegisterTest<test::MaterialTest>("MaterialTest");
+        testMenu->RegisterTest<test::ModelTest>("ModelTest");
 
         double deltaTime = 0.0f;    // Time between current frame and last frame
         double lastFrame = 0.0f; // Time of last frame

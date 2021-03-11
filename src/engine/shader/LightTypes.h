@@ -28,6 +28,10 @@ struct PointLight {
     void SetIntensity(float _lightIntensity) {
         lightIntensity = _lightIntensity;
     }
+
+    static PointLight Default() {
+        return PointLight();
+    }
 };
 
 struct DirectionalLight {
@@ -41,6 +45,10 @@ struct DirectionalLight {
         ambient = _ambient;
         diffuse = _diffuse;
         specular = _specular;
+    }
+
+    static DirectionalLight Default() {
+        return DirectionalLight();
     }
 };
 
@@ -69,5 +77,9 @@ struct SpotLight {
     }
     void SetIntensity(float _lightIntensity) {
         intensity = _lightIntensity;
+    }
+
+    static SpotLight Default() {
+        return SpotLight();
     }
 };

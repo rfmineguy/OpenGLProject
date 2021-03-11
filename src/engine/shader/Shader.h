@@ -17,6 +17,8 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "shader/Material.h"
 #include "shader/LightTypes.h"
+#include "shader/Environment.h"
+#include "Environment.h"
 
 class Shader {
 public:
@@ -33,9 +35,10 @@ public:
     void SetMaterial(const std::string& name, Material mat);
     void SetPointLight(const std::string& name, PointLight light);
     void SetPointLightArr(const std::string& name, std::vector<PointLight>& lights);
-
     void SetDirectionaLight(const std::string& name, DirectionalLight* light);
     void SetSpotLight(const std::string& name, SpotLight* light);
+    void SetEnvironment(const std::string& name, Environment env);
+
 private:
     void CompileVertShader(std::string& filePath);
     void CompileFragShader(std::string& filePath);

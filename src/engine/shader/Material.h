@@ -8,9 +8,9 @@
 #include "glm/glm.hpp"
 
 struct Material {
-    unsigned int diffuseTexture = 0;
-    unsigned int specularTexture = 1;
-    float shininess;
+    int diffuseTexture = 0;
+    int specularTexture = 1;
+    float shininess = 32.0f;
 };
 
 #endif //OPENGLPROJECT_MATERIAL_H

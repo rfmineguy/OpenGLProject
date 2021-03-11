@@ -11,14 +11,17 @@
 
 class Texture {
 public:
+    Texture(std::string filePath, std::string type);
     Texture(std::string filePath);
     ~Texture();
     void Use(unsigned int slot = 0);
 private:
     void CreateTexture(std::string filePath);
 
-private:
+public:
     unsigned int m_Texture;
+    std::string m_Type;
+    std::string m_Path;
 };
 
 
