@@ -44,7 +44,7 @@ void Shader::CompileVertShader(std::string& filePath) {
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     } else
     {
-        printf("SUCCESS\n");
+        printf("SUCCESS - %s\n", filePath.c_str());
     }
 }
 void Shader::CompileFragShader(std::string& filePath) {
@@ -76,7 +76,7 @@ void Shader::CompileFragShader(std::string& filePath) {
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     } else
     {
-        printf("SUCCESS\n");
+        printf("SUCCESS - %s\n", filePath.c_str());
     }
 
 }
@@ -98,7 +98,7 @@ void Shader::FinalizeShader() {
     std::cout << "Created program ID : " << m_Program << std::endl;
 }
 
-void Shader::Use() {
+void Shader::Use() const {
     glUseProgram(m_Program);
 }
 

@@ -20,7 +20,7 @@ public:
     void SetupMesh();
 
     // mesh data
-    std::string               name;
+    std::string               modelName;
     std::vector<Vertex>       vertices;
     std::vector<unsigned int> indices;
     std::vector<Texture>      textures;

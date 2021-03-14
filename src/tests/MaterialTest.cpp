@@ -8,8 +8,8 @@ test::MaterialTest::MaterialTest()
         : m_Camera(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0))
         , m_LightSourceShader("../res/shaders/7_materialLighting/light_source_vert.shader", "../res/shaders/7_materialLighting/light_source_frag.shader")
         , m_CubeShader("../res/shaders/7_materialLighting/cube_vert.shader", "../res/shaders/7_materialLighting/cube_frag.shader")
-        , m_DiffuseTex("../res/textures/crate/crate_diffuse.png")
-        , m_SpecularTex("../res/textures/crate/crate_spec.png") {
+        , m_DiffuseTex("../res/textures/crate/crate_diffuse.png", Texture::TexUse::TEX_2D)
+        , m_SpecularTex("../res/textures/crate/crate_spec.png", Texture::TexUse::TEX_2D) {
     Vertex vertices[] = {
             //front
             {{0.0f, 0.0f, 0.0},  {0.0f,  0.0f,  -1.0f}, {0.0f, 0.0f}},  //0

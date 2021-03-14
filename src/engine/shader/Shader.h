@@ -25,7 +25,7 @@ public:
     Shader(std::string vertPath,std::string fragPath, bool printSource = false);
     ~Shader();
 
-    void Use();
+    void Use() const;
     void SetUniform1ui(const std::string& name, unsigned int v0);
     void SetUniform1i(const std::string& name, int v0);
     void SetUniform1f(const std::string& name, float v0);

@@ -78,3 +78,7 @@ void Camera::LookAt(glm::vec3 position) {
     m_View = glm::lookAt(m_CamPos, m_CamPos + m_CameraFront, m_CameraUp);
 }
 
+void Camera::Resize(int width, int height) {
+    m_Proj = glm::perspective(glm::radians(45.f), (float)width / (float)height, 0.1f, 100.f);
+}
+

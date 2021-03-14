@@ -25,8 +25,8 @@ set(SOURCE_FILES src/main.cpp src/glad.c
         src/engine/model/Mesh.h
         src/tests/ModelTest.cpp
         src/tests/ModelTest.h
-        src/engine/model/Model2.cpp
-        src/engine/model/Model2.h src/engine/shader/Environment.h)
+        src/engine/model/Model.cpp
+        src/engine/model/Model.h src/engine/shader/Environment.h)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${dir}/build)

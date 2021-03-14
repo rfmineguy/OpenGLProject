@@ -6,7 +6,7 @@
 #define OPENGLPROJECT_MODELTEST_H
 
 #include "test_framework/Test.h"
-#include "model/Model2.h"
+#include "model/Model.h"
 #include "shader/Shader.h"
 #include "shader/Environment.h"
 #include "camera/Camera.h"
@@ -24,8 +24,8 @@ namespace test{
     public:
         Environment environment;
     private:
-        Model2 m_Model;
-        Shader m_Shader;
+        Model m_Model, m_SkyboxModel;
+        Shader m_Shader, m_SkyboxShader;
         Camera m_Camera;
 
     private:

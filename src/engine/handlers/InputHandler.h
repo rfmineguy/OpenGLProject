@@ -5,7 +5,7 @@ struct InputHandler {
 	double lastX = 480, lastY = 270;
     double yaw{}, pitch{}, roll{};
     double sensitivity = 0.3;
-    bool mouseEnabled = true;
+    bool mouseEnabled = false;
     bool keyEnabled = true;
 };
 extern struct InputHandler Input;

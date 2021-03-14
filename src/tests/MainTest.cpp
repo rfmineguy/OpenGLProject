@@ -9,8 +9,8 @@
 
 test::MainTest::MainTest()
     :m_Shader("../res/shaders/3_transformations/vert.shader", "../res/shaders/3_transformations/frag.shader")
-    ,m_Texture1("../res/textures/smily.png")
-    ,m_Texture2("../res/textures/box.png")
+    ,m_Texture1("../res/textures/smily.png", Texture::TexUse::TEX_2D)
+    ,m_Texture2("../res/textures/box.png", Texture::TexUse::TEX_2D)
     ,m_Camera(glm::vec3(0, 0, 10), glm::vec3(0, 0, 0)){
 
     /** BUFFERS **/

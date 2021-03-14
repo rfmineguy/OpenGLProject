@@ -2,27 +2,38 @@
 // Created by RFMinePC on 3/5/2021.
 //
 
-#include "Model2.h"
+#include "Model.h"
 #include "tiny_obj_loader/tiny_obj_loader.h"
 
-Model2::Model2(const char* dir, const char* name)
+//the diffuse texture should be named "<obj filename>_diff.png"
+Model::Model(const char* dir, const char* name, ModelUsage usage, bool printdata, bool invertNormals)
 : m_Dir(dir),
-  m_Spec("../res/textures/crate/crate_spec.png"),
-  m_Diff("../res/models/obelisk/texture.png"){
+m_Usage(usage),
+m_InvertNormals(invertNormals) {
+    if (usage == ModelUsage::NORMAL) {
+        m_Spec = Texture(m_Dir + name + "_spec.png", Texture::TexUse::TEX_2D, Texture::TexType::SPECULAR);
+        m_Diff = Texture(m_Dir + name + "_diff.png", Texture::TexUse::TEX_2D, Texture::TexType::DIFFUSE);
+    } else if (usage == Model::ModelUsage::SKYBOX) {
+        // no spec for skybox
+        m_Diff = Texture("../res/textures/skybox/", Texture::TexUse::CUBEMAP);
+    }
     LoadFile(name);
-    PrintData();
+    if (printdata)
+        PrintData();
+
+    m_ModelName = name;
+    std::cout << m_ModelName << std::endl << std::endl;
 }
 
-Model2::~Model2() {
+Model::~Model() {
 
 }
 
-void Model2::LoadFile(const char* name) {
-    std::cout << "LoadFile : " << m_Dir << " - " << name << std::endl;
+void Model::LoadFile(const char* name) {
     std::string contents = ReadFileContents(name);
-    std::cout << contents << std::endl;
 
     std::istringstream sourceStream(contents);
+    //std::cout << contents << std::endl;
 
     tinyobj::attrib_t attributes;
     std::vector<tinyobj::shape_t> shapes;
@@ -44,14 +55,15 @@ void Model2::LoadFile(const char* name) {
             int vertInd = index.vertex_index;
             int normInd = index.normal_index;
             int texInd = index.texcoord_index;
+            int normalDir = m_InvertNormals ? -1 : 1;
             glm::vec3 position{
                     attributes.vertices[3 * vertInd + 0],
                     attributes.vertices[3 * vertInd + 1],
                     attributes.vertices[3 * vertInd + 2]};
             glm::vec3 normal{
-                    attributes.normals[3 * normInd + 0],
-                    attributes.normals[3 * normInd + 1],
-                    attributes.normals[3 * normInd + 2],
+                    attributes.normals[3 * normInd + 0] * normalDir,
+                    attributes.normals[3 * normInd + 1] * normalDir,
+                    attributes.normals[3 * normInd + 2] * normalDir,
             };
             glm::vec2 texCoord{
                     attributes.texcoords[2 * texInd + 0],
@@ -70,9 +82,10 @@ void Model2::LoadFile(const char* name) {
             Indices.push_back(uniqueVertices[position]);
         }
     }
-    for (const auto& material : materials) {
-
+    for (const auto& mat : materials) {
+        //future support for material files to modify imported objects
     }
+    mesh.modelName = m_ModelName + "_mesh";
     mesh.vertices = Vertices;
     mesh.indices = Indices;
     mesh.SetupMesh();
@@ -82,7 +95,7 @@ void Model2::LoadFile(const char* name) {
     material.shininess = 32.f;
 }
 
-std::string Model2::ReadFileContents(const char* name) {
+std::string Model::ReadFileContents(const char* name) {
     std::fstream fstream;
     fstream.open(m_Dir + name + ".obj");
     std::string currentLine;
@@ -90,10 +103,14 @@ std::string Model2::ReadFileContents(const char* name) {
     while(std::getline(fstream, currentLine)) {
         fileContents << currentLine << "\n";
     }
+    if (fileContents.str().length() <= 0) {
+        std::cerr << "Failed to read : " << m_Dir << name << ".obj" << std::endl;
+        return NULL;
+    }
     return fileContents.str();
 }
 
-void Model2::PrintData() {
+void Model::PrintData() {
     printf("Mesh Vertices : %d\n", mesh.vertices.size());
     for(int i = 0; i < mesh.vertices.size(); i++) {
         printf("    - Vertex %d { \n", i);
@@ -109,7 +126,15 @@ void Model2::PrintData() {
     }
 }
 
-void Model2::Draw(Shader &shader, bool wireframe) {
+void Model::Draw(Shader &shader, bool wireframe) {
+    //possibly wasteful, but it works
+    shader.Use();
+    if (m_Usage == ModelUsage::NORMAL) {
+        m_Spec.Use(0);
+        m_Diff.Use(1);
+    }
+    if (m_Usage == ModelUsage::SKYBOX) {
+        m_Diff.Use(2);
+    }
     mesh.Draw(shader, wireframe);
 }
-

@@ -14,8 +14,15 @@ public:
     ~Camera();
     void Update(float dt);
     void LookAt(glm::vec3 position);
+    void Resize(int width, int height);
     glm::mat4 GetProjView() {
         return m_Proj * m_View;
+    }
+    glm::mat4 GetProj() {
+        return m_Proj;
+    }
+    glm::mat4 GetView() {
+        return m_View;
     }
 
     glm::vec3 m_CamPos;

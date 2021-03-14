@@ -7,7 +7,7 @@
 test::TexturedCubeTest::TexturedCubeTest()
 :m_Camera(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0))
 ,m_Shader("../res/shaders/5_textureCube/vert.shader", "../res/shaders/5_textureCube/frag.shader")
-,m_Texture("../res/textures/crate.png")
+,m_Texture("../res/textures/crate.png", Texture::TexUse::TEX_2D)
 {
     Vertex verts[] = {
             {{0.0, 0.1, 0.2}, {}, {0.0, }}
