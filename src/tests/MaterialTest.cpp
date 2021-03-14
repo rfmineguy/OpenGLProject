@@ -114,12 +114,12 @@ test::MaterialTest::~MaterialTest() {
     glDeleteBuffers(1, &m_IBO);
 }
 
-float time = 0;
+float currentTime = 0;
 void test::MaterialTest::OnUpdate(float dt) {
     m_Camera.Update(dt);
 
     /** START VALUE CALCULATIONS **/
-    time += dt;
+    currentTime += dt;
 
     glm::vec3 diffuseColor = m_lightColor * glm::vec3(0.5f);
     glm::vec3 ambientColor = diffuseColor * glm::vec3(0.3f);
