@@ -11,11 +11,11 @@ Model::Model(const char* dir, const char* name, ModelUsage usage, bool printdata
 m_Usage(usage),
 m_InvertNormals(invertNormals) {
     if (usage == ModelUsage::NORMAL) {
-        m_Spec = Texture(m_Dir + name + "_spec.png", Texture::TexUse::TEX_2D, Texture::TexType::SPECULAR);
-        m_Diff = Texture(m_Dir + name + "_diff.png", Texture::TexUse::TEX_2D, Texture::TexType::DIFFUSE);
+        m_Spec = std::make_unique<Texture>(m_Dir + name + "_spec.png", Texture::TexUse::TEX_2D, Texture::TexType::SPECULAR);
+        m_Diff = std::make_unique<Texture>(m_Dir + name + "_diff.png", Texture::TexUse::TEX_2D, Texture::TexType::DIFFUSE);
     } else if (usage == Model::ModelUsage::SKYBOX) {
         // no spec for skybox
-        m_Diff = Texture("../res/textures/skybox/", Texture::TexUse::CUBEMAP);
+        m_Diff = std::make_unique<Texture>("../res/textures/skybox/", Texture::TexUse::CUBEMAP);
     }
     LoadFile(name);
     if (printdata)
@@ -55,7 +55,7 @@ void Model::LoadFile(const char* name) {
             int vertInd = index.vertex_index;
             int normInd = index.normal_index;
             int texInd = index.texcoord_index;
-            int normalDir = m_InvertNormals ? -1 : 1;
+            float normalDir = m_InvertNormals ? -1 : 1;
             glm::vec3 position{
                     attributes.vertices[3 * vertInd + 0],
                     attributes.vertices[3 * vertInd + 1],
@@ -128,13 +128,18 @@ void Model::PrintData() {
 
 void Model::Draw(Shader &shader, bool wireframe) {
     //possibly wasteful, but it works
+    if (m_InvertNormals) {
+        glFrontFace(GL_CW);
+    } else {
+        glFrontFace(GL_CCW);
+    }
     shader.Use();
     if (m_Usage == ModelUsage::NORMAL) {
-        m_Spec.Use(0);
-        m_Diff.Use(1);
+        m_Spec->Use(0);
+        m_Diff->Use(1);
     }
     if (m_Usage == ModelUsage::SKYBOX) {
-        m_Diff.Use(2);
+        m_Diff->Use(2);
     }
     mesh.Draw(shader, wireframe);
 }

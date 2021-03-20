@@ -6,8 +6,8 @@
 #include "imgui.h"
 
 test::ModelTest::ModelTest()
-:m_Model("../res/models/8_vertex_test/", "cube", Model::ModelUsage::NORMAL)
-,m_SkyboxModel("../res/models/8_vertex_test/", "cube", Model::ModelUsage::SKYBOX, false, false)
+:m_Model("../res/models/sphere/", "sphere", Model::ModelUsage::NORMAL, false, false)
+,m_SkyboxModel("../res/models/8_vertex_test/", "cube", Model::ModelUsage::SKYBOX, false, true)
 ,m_Shader("../res/shaders/8_modelLoading/cube_vert.shader", "../res/shaders/8_modelLoading/cube_frag.shader")
 ,m_SkyboxShader("../res/shaders/skybox/sky_vert.shader", "../res/shaders/skybox/sky_frag.shader")
 ,m_Camera(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0)) {
@@ -19,6 +19,7 @@ test::ModelTest::ModelTest()
 
         pLight.pos = glm::vec3(randx, randy, randz);
     }
+    Texture::UnbindAll();
 }
 
 test::ModelTest::~ModelTest() {

@@ -78,6 +78,46 @@ void resize_callback(GLFWwindow* window, int width, int height) {
     printf("%d  %d", Resize.lastWindowHeight, Resize.windowHeight);
     glViewport(0, 0, width, height);
 }
+void message_callback(GLenum src, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* msg, void const* user_param) {
+    auto const src_str = [src]() {
+        switch (src)
+        {
+            case GL_DEBUG_SOURCE_API: return "API";
+            case GL_DEBUG_SOURCE_WINDOW_SYSTEM: return "WINDOW SYSTEM";
+            case GL_DEBUG_SOURCE_SHADER_COMPILER: return "SHADER COMPILER";
+            case GL_DEBUG_SOURCE_THIRD_PARTY: return "THIRD PARTY";
+            case GL_DEBUG_SOURCE_APPLICATION: return "APPLICATION";
+            case GL_DEBUG_SOURCE_OTHER: return "OTHER";
+            default: return "NONE";
+        }
+    }();
+
+    auto const type_str = [type]() {
+        switch (type)
+        {
+            case GL_DEBUG_TYPE_ERROR: return "ERROR";
+            case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: return "DEPRECATED_BEHAVIOR";
+            case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: return "UNDEFINED_BEHAVIOR";
+            case GL_DEBUG_TYPE_PORTABILITY: return "PORTABILITY";
+            case GL_DEBUG_TYPE_PERFORMANCE: return "PERFORMANCE";
+            case GL_DEBUG_TYPE_MARKER: return "MARKER";
+            case GL_DEBUG_TYPE_OTHER: return "OTHER";
+            default: return "NONE";
+        }
+    }();
+
+    auto const severity_str = [severity]() {
+        switch (severity) {
+            case GL_DEBUG_SEVERITY_NOTIFICATION: return "NOTIFICATION";
+            case GL_DEBUG_SEVERITY_LOW: return "LOW";
+            case GL_DEBUG_SEVERITY_MEDIUM: return "MEDIUM";
+            case GL_DEBUG_SEVERITY_HIGH: return "HIGH";
+            default: return "NONE";
+        }
+    }();
+
+    std::cerr << src_str << ", " << type_str << ", " << severity_str << ", " << id << ": " << msg << '\n';
+}
 
 //sets up various settings required for the rest of the program
 GLFWwindow* CreateWindow() {
@@ -86,7 +126,7 @@ GLFWwindow* CreateWindow() {
         return nullptr;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // =======
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5); // Sets OpenGL version 3.3 <MAJOR.MINOR>
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5); // Sets OpenGL version 4.5 <MAJOR.MINOR>
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //GLFW_OPENGL_CORE_PROFILE or GLFW_OPENGL_COMPAT_PROFILE
 
     window = glfwCreateWindow(960, 540, "OpenGL", nullptr, nullptr);
@@ -116,6 +156,10 @@ void GLSetup() {
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    glDebugMessageCallback(message_callback, nullptr);
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);

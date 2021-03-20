@@ -9,6 +9,7 @@
 #include <model/Mesh.h>
 #include <glm/gtx/hash.hpp>
 #include "shader/Material.h"
+#include <memory>
 
 class Model {
 public:
@@ -26,8 +27,9 @@ public:
 
 public:
     Material material;
-    Texture m_Spec, m_Diff;
+    std::unique_ptr<Texture> m_Spec, m_Diff;
     ModelUsage m_Usage;
+
 private:
     bool m_InvertNormals;
     std::string m_ModelName;

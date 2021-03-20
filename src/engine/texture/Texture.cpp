@@ -10,6 +10,7 @@ Texture::Texture()
 :m_Usage(TexUse::TEX_2D) {
     std::string filepath = "../res/textures/missing/missing_diff.png";
     CreateTexture(filepath);
+    m_Path = filepath;
 }
 
 Texture::Texture(std::string filePath, TexUse usage)
@@ -25,8 +26,22 @@ Texture::Texture(std::string filePath, TexUse usage, TexType type)
     m_Path = filePath;
 }
 
+Texture::Texture(Texture const &texture)
+: Texture(texture.m_Path, texture.m_Usage, texture.m_Type) {
+    std::cout << "Copy constructor called" << std::endl;
+}
+
+Texture &Texture::operator = (const Texture &tex) {
+    std::cout << "Assignment" << std::endl;
+    m_Usage = tex.m_Usage;
+    m_Path = tex.m_Path;
+    m_Type = tex.m_Type;
+    return *this;
+}
+
 Texture::~Texture() {
     glDeleteTextures(1, &m_Texture);
+    std::cout << "Deleted texture : " << m_Path << std::endl;
 }
 
 /**
@@ -50,11 +65,9 @@ void Texture::CreateTexture(std::string& filePath) {
 void Texture::Use(unsigned int slot) {
     glActiveTexture(GL_TEXTURE0 + slot);
     if (m_Usage == TexUse::TEX_2D) {
-        //std::cout << "Binding Tex 2D : " << m_Texture << std::endl;
         glBindTexture(GL_TEXTURE_2D, m_Texture);
     }
     else if (m_Usage == TexUse::CUBEMAP) {
-        //std::cout << "Binding Cube Map : " << m_Texture << std::endl;
         glBindTexture(GL_TEXTURE_CUBE_MAP, m_Texture);
     }
 }
@@ -77,8 +90,8 @@ void Texture::CreateTex2D(std::string& filePath) {
     stbi_set_flip_vertically_on_load(1);
     m_Data = LoadImage(filePath.c_str());
     if (!m_Data) {
-        std::cerr << "File : '" << filePath.c_str() << "' not found." << std::endl;
-        std::cerr << "Loading missing texture in place." << std::endl;
+        std::cerr << "Tex2D::File : '" << filePath.c_str() << "' not found." << std::endl;
+        std::cerr << "Tex2D::Loading missing texture in place." << std::endl;
 
         if(m_Type == TexType::DIFFUSE) {
             filePath = "../res/textures/missing/missing_diff.png";
@@ -99,6 +112,10 @@ void Texture::CreateTex2D(std::string& filePath) {
 void Texture::CreateCubemap(std::string& filePath, std::vector<std::string> fileNames) {
     glGenTextures(1, &m_Texture);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_Texture);
+    GLenum err;
+    while ( ( err = glGetError() ) != GL_NO_ERROR) {
+        std::cerr << err << std::endl;
+    }
 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -106,6 +123,7 @@ void Texture::CreateCubemap(std::string& filePath, std::vector<std::string> file
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
+    stbi_set_flip_vertically_on_load(0);
     std::cout << "Creating cubemap texure..." << std::endl;
     for (int i = 0; i < fileNames.size(); i++) {
         m_Data = LoadImage((filePath + fileNames[i]).c_str());
@@ -114,13 +132,13 @@ void Texture::CreateCubemap(std::string& filePath, std::vector<std::string> file
             std::cerr << "Loading missing texture in place." << std::endl;
             m_Data = LoadImage("../res/textures/missing/missing_diff.png");
         }
-        std::cout << "   + Adding texture : " << fileNames[i] << " to cubemap..." << std::endl;
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_Data);
+        std::cout << "   + Adding texture : " << fileNames[i] << " " << m_Width << " x " << m_Height << " to cubemap..." << std::endl;
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_Data);
     }
     std::cout << "Created tex id : " << m_Texture << ", type=Cubemap, path=" << filePath << std::endl;
 }
 
-unsigned char* Texture::LoadImage(const char *path) {
-    unsigned char* data = stbi_load(path, &m_Width, &m_Height, &m_NrChannels, 4);
+unsigned char* Texture::LoadImage(const char *path, int channelCount) {
+    unsigned char* data = stbi_load(path, &m_Width, &m_Height, &m_NrChannels, channelCount);
     return data;
 }

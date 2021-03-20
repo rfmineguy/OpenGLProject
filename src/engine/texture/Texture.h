@@ -25,21 +25,32 @@ public:
     Texture();
     Texture(std::string filePath, TexUse usage, TexType type);
     Texture(std::string filePath, TexUse usage);
+    Texture(const Texture& texture);
+    Texture& operator = (const Texture& tex);
     ~Texture();
     void Use(unsigned int slot = 0);
     void Unuse();
+    static void UnbindAll() {
+        for (int i = 0; i < 32; i++) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+        }
+    }
+
 private:
     void CreateTexture(std::string& filePath);
     void CreateTex2D(std::string& filePath);
     void CreateCubemap(std::string& filePath, std::vector<std::string> fileNames);
-    unsigned char* LoadImage(const char* path);
+    unsigned char* LoadImage(const char* path, int channelCount = 0);
+
 
 private:
     TexUse m_Usage;
     TexType m_Type;
 
 public:
-    unsigned int m_Texture;
+    unsigned int m_Texture = 0;
     std::string m_Path;
 
     unsigned char* m_Data;
