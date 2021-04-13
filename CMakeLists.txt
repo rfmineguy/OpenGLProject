@@ -40,6 +40,8 @@ include_directories(dependencies/glad/include)
 
 
 #Add deps
+add_compile_definitions(IMGUI_IMPL_OPENGL_LOADER_GLAD=1)
+
 add_subdirectory(dependencies)
 add_subdirectory(src/vendor/imgui)
 add_subdirectory(src/vendor/stb_image)
@@ -54,3 +56,4 @@ target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} ImGui::ImGui)
 target_link_libraries(${PROJECT_NAME} StbImage::StbImage)
 target_link_libraries(${PROJECT_NAME} TinyObjLoader)
+target_link_libraries(${PROJECT_NAME} GL)
